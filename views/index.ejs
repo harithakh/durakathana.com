@@ -14,41 +14,17 @@
     />
 
     <!-- Custom CSS -->
-    <!-- <link rel="stylesheet" href="public/css/styles.css" /> -->
+    <link rel="stylesheet" href="css/styles.css" />
 
     <script src="/js/scripts.js"></script>
   </head>
   <body>
     <!-- Header -->
-    <header>
-      <nav class="navbar navbar-expand-md bg-light px-2">
-        <div class="col-9">
-          <a class="navbar-brand" href="#">දුරකතන.com</a>
-        </div>
-        <div class="col-3 text-end">
-          <!-- it's posible to use  '/login' directly. but this approach gives more control -->
-          <a class="btn" role="button" onclick="navigateToPage('/login')">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              fill="blue"
-              class="bi bi-person-circle"
-              viewBox="0 0 16 16"
-            >
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-              <path
-                fill-rule="evenodd"
-                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-              />
-            </svg>
-          </a>
-        </div>
-      </nav>
-    </header>
+    <%- include('partials/header') %>
 
     <!-- Main Content -->
     <main>
+      <!-- top title, search bar section -->
       <section>
         <div
           class="spacer"
@@ -68,7 +44,7 @@
               />
               <a
                 class="btn btn-outline-secondary mx-2"
-                href="/search" 
+                href="/search"
                 role="button"
                 >Search</a
               >
@@ -95,227 +71,60 @@
         </div>
       </section>
 
+      <!-- top rankings section-->
       <section>
         <h2 class="text text-dark bg-primary-subtle px-4 py-2 fs-5">
           Top rankings
         </h2>
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
-            <div class="col">
-              <div class="card">
-                <a class="phone-card-link" href="./reviews.html">
-                  <img src="../img/pixel-7a.jpg" class="card-img-top" alt="" />
-                  <div class="card-body">
-                    <h5 class="card-title">Google Pixel 7a</h5>
-                    <!-- <p class="card-text">4.5(167 )</p> -->
-                  </div>
-                </a>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.7 (199)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/iphone-13.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Iphone 13</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.6 (189)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/xperia-1-5.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Xperia 1v</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.58 (191)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/aquos-sense7-.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Aquos Sense7</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.5 (169)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/iphone-se.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Iphone se</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.44 (199)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/motarola-edge-40.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Motarola Edge 40</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.21 (149)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/oppo-reno-9a.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Oppo Reno 9a</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.1 (134)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/pixel-6a.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Pixel 6a</h5>
-                </div>
-                <div class="card-footer">
-                  <small class="text-body-secondary">⭐ 4.0 (193)</small>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
           </div>
         </div>
       </section>
 
+      <!-- most reviewed section -->
       <section>
         <h2 class="text text-dark bg-primary-subtle px-4 py-2 mt-2 fs-5">
           Most Reviewed
         </h2>
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
-            <div class="col">
-              <div class="card">
-                <img src="../img/pixel-7a.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Google Pixel 7a</h5>
-                  <p class="card-text">4.7(199 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/iphone-13.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Iphone 13</h5>
-                  <p class="card-text">4.5(167 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/xperia-1-5.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Xperia 1v</h5>
-                  <p class="card-text">4.4(147 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/aquos-sense7-.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Aquos Sense7</h5>
-                  <p class="card-text">4.3(126 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/iphone-se.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Iphone se</h5>
-                  <p class="card-text">4.25(167 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/motarola-edge-40.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Motarola Edge 40</h5>
-                  <p class="card-text">4.1(67 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img
-                  src="../img/oppo-reno-9a.jpg"
-                  class="card-img-top"
-                  alt=""
-                />
-                <div class="card-body">
-                  <h5 class="card-title">Oppo Reno 9a</h5>
-                  <p class="card-text">4.04(45 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
 
-            <div class="col">
-              <div class="card">
-                <img src="../img/pixel-6a.jpg" class="card-img-top" alt="" />
-                <div class="card-body">
-                  <h5 class="card-title">Pixel 6a</h5>
-                  <p class="card-text">4.0(37 )</p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/phone-info-card') %>
+            
           </div>
         </div>
       </section>
 
+      <!-- latest user reviews section -->
       <section>
         <h2 class="text text-dark bg-primary-subtle px-4 py-2 mt-2 fs-5">
           Latest Reviews
@@ -389,12 +198,14 @@
       </section>
     </main>
 
+    <%- include('partials/footer') %>
+
     <!-- Bootstrap JS and your custom JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
-    ></script> 
+    ></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
