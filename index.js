@@ -24,6 +24,22 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.get('/reviews', (req, res) => {
+  res.render('reviews');
+});
+
+app.get('/search', (req, res) => {
+  res.render('search');
+});
+
+app.get('/account', (req, res) => {
+  res.render('account');
+});
+
 app.listen(port, () => {
   console.log(`Server runnig on port${port}`);
 });
