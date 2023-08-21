@@ -76,27 +76,13 @@
         <h2 class="text text-dark bg-primary-subtle px-4 py-2 fs-5">
           Top rankings
         </h2>
-        
+
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
-
-            <!-- next do below using for loop -->
-           
-            <%- include('partials/phone-info-card', {model : phones[0].model, img: phones[0].img}) %>
-
-            <%- include('partials/phone-info-card', {model : phones[1].model, img: phones[1].img}) %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
+            <!--loop for show top ranking phone cardViews-->
+            <% phones.forEach((phone) => { %> <%-
+            include('partials/phone-info-card', {model : phone.model, img:
+            phone.img}) %> <% }); %>
           </div>
         </div>
       </section>
@@ -108,22 +94,10 @@
         </h2>
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-
-            <%- include('partials/phone-info-card') %>
-            
+            <!--loop for show most reviewed phones cardViews-->
+            <% phones.forEach((phone) => { %> <%-
+            include('partials/phone-info-card', {model : phone.model, img:
+            phone.img}) %> <% }); %>
           </div>
         </div>
       </section>
@@ -133,70 +107,13 @@
         <h2 class="text text-dark bg-primary-subtle px-4 py-2 mt-2 fs-5">
           Latest Reviews
         </h2>
+        <!-- data must be passed from index.js -->
         <div class="container-md">
           <div class="row row-cols-1 row-cols-sm-2 g-2 px-lg-5 mx-lg-5">
-            <div class="col">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Sony 1</h5>
-                  by santha
-                </div>
-                <div class="card-body">
-                  <p>
-                    ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා වල Fringer Print issue
-                    එනවා. තව සමහර වෙලාවල් වලට Display එකත් අවුල් යනවා. ගන්නකොට
-                    හොද චාජරේකුත් ගනින් ...
-                    <a href="#" class="card-link">read more ></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Samsung galaxy m12</h5>
-                  by susantha
-                </div>
-                <div class="card-body">
-                  <p>
-                    ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා වල Fringer Print issue
-                    එනවා...
-                    <a href="#" class="card-link">read more ></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Apple 11</h5>
-                  by sewwandi
-                </div>
-                <div class="card-body">
-                  <p>
-                    ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා වල Fringer Print issue
-                    එනවා. තව සමහර වෙලාවල් වලට Display එකත් අවුල් යනවා. ගන්නකොට
-                    හොද චාජරේකුත් ගනින් ...
-                    <a href="#" class="card-link">read more ></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title">Huawei p7</h5>
-                  by kanchana
-                </div>
-                <div class="card-body">
-                  <p>
-                    ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා වල Fringer Print issue
-                    එනවා. තව සමහර ...
-                    <a href="#" class="card-link">read more ></a>
-                  </p>
-                </div>
-              </div>
-            </div>
+            <%- include('partials/first-page-review', {model: 'Nokia
+            3.4',userName: 'santa', review: 'ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා
+            වල Fringer Print issue එනවා. තව සමහර වෙලාවල් වලට Display එකත් අවුල්
+            යනවා. ගන්නකොට හොද චාජරේකුත් ගනින් '}) %>
           </div>
         </div>
       </section>
