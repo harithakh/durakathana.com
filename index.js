@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import pool from './public/js/dbconnection.js'; // Import the database connection
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -41,8 +42,20 @@ app.get("/search", (req, res) => {
   res.render("search");
 });
 
-app.get("/account", (req, res) => {
-  res.render("account");
+app.get("/account", async (req, res) => {
+
+  try {
+    const conn = await pool.getConnection();
+
+    await conn.query('USE slmobi');  // Select the database
+    const rows = await conn.query('SELECT * FROM mobile_info;');
+    conn.release(); //release the connection
+    res.json(rows);
+    // res.render("account");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+  
 });
 
 app.listen(port, () => {

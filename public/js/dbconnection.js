@@ -1,4 +1,5 @@
-import mariadb from mariadb;
+import * as mariadb from 'mariadb';
+
 
 const pool = mariadb.createPool({
     host: 'localhost', 
@@ -8,4 +9,4 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 });
 
-module.exports = pool;
+export default pool;
