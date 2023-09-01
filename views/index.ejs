@@ -80,9 +80,10 @@
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
             <!--loop for show top ranking phone cardViews-->
-            <% phones.forEach((phone) => { %> <%-
-            include('partials/phone-info-card', {model : phone.model, img:
-            phone.img}) %> <% }); %>
+            <!-- everything below should be changed and db must be recreated -->
+            <% phone_data.forEach((phone) => { %> 
+              <%-include('partials/phone-info-card', {model : phone.phone_model}) %> 
+            <% }); %>
           </div>
         </div>
       </section>

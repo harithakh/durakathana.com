@@ -22,8 +22,21 @@ const phoneObjects = [
   { model: "Iphone 13", img: "../img/iphone-13.jpg" },
 ];
 
-app.get("/", (req, res) => {
-  res.render("index", { phones: phoneObjects });
+app.get("/", async (req, res) => {
+  //getting data from db
+  try {
+    const conn = await pool.getConnection();
+
+    await conn.query('USE slmobi');  // Select the database
+    const rows = await conn.query('SELECT * FROM mobile_info;');
+    conn.release(); //release the connection
+    console.log(rows)
+    // res.json(rows);
+    res.render("index", { phones: phoneObjects, phone_data: rows });//passing data to home page.
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+
 });
 
 app.get("/login", (req, res) => {
@@ -36,26 +49,15 @@ app.get("/signup", (req, res) => {
 
 app.get("/reviews", (req, res) => {
   res.render("reviews");
+
 });
 
 app.get("/search", (req, res) => {
   res.render("search");
 });
 
-app.get("/account", async (req, res) => {
-
-  try {
-    const conn = await pool.getConnection();
-
-    await conn.query('USE slmobi');  // Select the database
-    const rows = await conn.query('SELECT * FROM mobile_info;');
-    conn.release(); //release the connection
-    res.json(rows);
-    // res.render("account");
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-  
+app.get("/account", (req, res) => {
+  res.render("account");
 });
 
 app.listen(port, () => {
