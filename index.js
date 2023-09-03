@@ -27,12 +27,19 @@ app.get("/", async (req, res) => {
   try {
     const conn = await pool.getConnection();
 
-    await conn.query('USE slmobi');  // Select the database
-    const rows = await conn.query('SELECT * FROM mobile_info;');
+    // Select the database
+    await conn.query('USE slmobi');
+    //get top ranking phones
+    const rows_top_ranks = await conn.query('SELECT * FROM phones ORDER  BY score DESC LIMIT 8;');
+    //get most reviewed phones
+    const rows_most_reviewed = await conn.query('SELECT * FROM phones ORDER  BY number_of_reviews DESC LIMIT 8;');
+
     conn.release(); //release the connection
-    console.log(rows)
+    // console.log(rows)
     // res.json(rows);
-    res.render("index", { phones: phoneObjects, phone_data: rows });//passing data to home page.
+    /* dummy data are added to sore and number of reviews for testing.
+      passing data to home page.*/
+    res.render("index", { phonesTopRanks: rows_top_ranks, phonesMostReviewed: rows_most_reviewed });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,13 +1,13 @@
 <div class="col">
   <div class="card">
     <a class="phone-card-link" href="reviews">
-      <img src="<%= locals.img %>" class="card-img-top" alt="" />
+      <img src="<%=locals.img %>" class="card-img-top" alt=""/>
       <div class="card-body">
         <h5 class="card-title"><%= locals.model %></h5>
       </div>
     </a>
     <div class="card-footer">
-      <small class="text-body-secondary">⭐ 4.7 (199)</small>
+      <small class="text-body-secondary">⭐ <%=locals.score%> (<%=locals.no_of_reviews  %>)</small>
     </div>
   </div>
 </div>
