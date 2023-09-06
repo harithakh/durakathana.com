@@ -7,6 +7,7 @@ import pool from './public/js/dbconnection.js'; // Import the database connectio
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+const router = express.Router();
 const port = 3000;
 
 //setting view engine to ejs
@@ -18,8 +19,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const phoneObjects = [
-  { model: "Aquos Sense7", img: "../img/aquos-sense7.jpg" },
-  { model: "Iphone 13", img: "../img/iphone-13.jpg" },
+  { id: 1, model: "Aquos Sense7", img: "../img/aquos-sense7.jpg" },
+  { id: 2, model: "Iphone 13", img: "../img/iphone-13.jpg" },
 ];
 
 app.get("/", async (req, res) => {
@@ -34,10 +35,9 @@ app.get("/", async (req, res) => {
     //get most reviewed phones
     const rows_most_reviewed = await conn.query('SELECT * FROM phones ORDER  BY number_of_reviews DESC LIMIT 8;');
 
-    conn.release(); //release the connection
-    // console.log(rows)
-    // res.json(rows);
-    /* dummy data are added to sore and number of reviews for testing.
+    //release the connection
+    conn.release();
+    /* dummy data are added to score and number of reviews for testing.
       passing data to home page.*/
     res.render("index", { phonesTopRanks: rows_top_ranks, phonesMostReviewed: rows_most_reviewed });
   } catch (err) {
@@ -54,9 +54,19 @@ app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-app.get("/reviews", (req, res) => {
-  res.render("reviews");
-
+app.get("/reviews/:id", async (req, res) => {
+  const phoneId = parseInt(req.params.id);
+  try {
+    const connection = await pool.getConnection();
+    await connection.query('USE slmobi');
+    const phoneInfo = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
+    connection.release();
+    
+    res.render("reviews", { phone_info: phoneInfo[0] }); //phoneInfo is an array 
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.get("/search", (req, res) => {
