@@ -119,10 +119,16 @@
         </h2>
         <div class="container-md">
           <div class="row row-cols-1 row-cols-sm-2 g-2 px-lg-5 mx-lg-5">
-            <%- include('partials/first-page-review', 
-            {model: 'Nokia3.4',
-            userName: 'santa', 
-            review: 'ෆෝන් එක නම් හොදය් හැබැය් සමහර ඒවා වල Fringer Print issue එනවා. තව සමහර වෙලාවල් වලට Display එකත් අවුල් යනවා. ගන්නකොට හොද චාජරේකුත් ගනින් '}) %>
+            <!--loop for show latest reviews cardViews-->
+            <% userReviews.forEach((rev) => { %>
+              <%-include('partials/first-page-review', 
+                {id: rev.r_id,
+                 model : rev.model,
+                 userName: rev.post_by, 
+                 score: rev.score,
+                 review: rev.review}) %> 
+              <% }); %>
+
           </div>
         </div>
       </section>

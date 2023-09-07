@@ -34,12 +34,17 @@ app.get("/", async (req, res) => {
     const rows_top_ranks = await conn.query('SELECT * FROM phones ORDER  BY score DESC LIMIT 8;');
     //get most reviewed phones
     const rows_most_reviewed = await conn.query('SELECT * FROM phones ORDER  BY number_of_reviews DESC LIMIT 8;');
-
+    //get data from user_reviews inner join with phones table
+    const rows_reviews = await conn.query('SELECT user_reviews.*, phones.model FROM user_reviews LEFT JOIN phones ON user_reviews.phone_id = phones.phone_id ORDER BY post_date DESC LIMIT 4;');
     //release the connection
     conn.release();
     /* dummy data are added to score and number of reviews for testing.
       passing data to home page.*/
-    res.render("index", { phonesTopRanks: rows_top_ranks, phonesMostReviewed: rows_most_reviewed });
+    res.render("index", {
+      phonesTopRanks: rows_top_ranks,
+      phonesMostReviewed: rows_most_reviewed,
+      userReviews: rows_reviews
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -63,8 +68,8 @@ app.get("/reviews/:id", async (req, res) => {
     const userReviews = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
     connection.release();
     //phoneInfo is an array of objects.
-    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews}); 
-    
+    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
