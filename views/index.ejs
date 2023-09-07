@@ -31,7 +31,7 @@
           style="height: 3px; background-color: rgb(27, 41, 173)"
         ></div>
         <h1 class="text-center text-light bg-primary py-2 text-xs">
-          Mobile phone user reviews Sri Lanka
+          Mobile phone user reviews - Sinhala
         </h1>
         <div class="container d-flex justify-content-center">
           <div class="row mx-2">
@@ -80,7 +80,6 @@
         <div class="container-md">
           <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
             <!--loop for show top ranking phone cardViews-->
-            <!-- everything below should be changed and db must be recreated -->
             <% phonesTopRanks.forEach((phone) => { %> 
               <%-include('partials/phone-info-card', 
               { id: phone.phone_id,
@@ -103,7 +102,8 @@
             <!--loop for show most reviewed phones cardViews-->
             <% phonesMostReviewed.forEach((phone) => { %>
             <%-include('partials/phone-info-card', 
-              {model : phone.model,
+              {id: phone.phone_id,
+               model : phone.model,
                img: 'img/'+phone.img, 
                score: phone.score,
                no_of_reviews: phone.number_of_reviews}) %> 
