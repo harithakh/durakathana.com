@@ -1,0 +1,34 @@
+<div class="card mt-2">
+    <div class="card-body pb-0">
+        <div class="row">
+            <p class="col col-sm-2">#<%=locals.rId %></p>
+            
+            <% switch (locals.score) {
+                case 1: %>
+                  <p class="col col-sm-7">⭐</p>
+                  <% break; 
+                case 2: %>
+                  <p class="col col-sm-7">⭐⭐</p>
+                  <% break;
+                case 3: %>
+                  <p class="col col-sm-7">⭐⭐⭐</p>
+                  <% break; 
+                case 4: %>
+                  <p class="col col-sm-7">⭐⭐⭐⭐</p>
+                  <% break; 
+                case 5: %>
+                  <p class="col col-sm-7">⭐⭐⭐⭐⭐</p>
+                  <% break; %>
+            <% } %>
+            
+
+            <!-- js default date format change to 'YYYY_MM_DD' format -->
+            <% const formattedDate = new Date(locals.date).toISOString().split('T')[0]; %>
+            <p class="col-sm-3 text-sm-end text-xs"><%=formattedDate%></p>
+        </div>
+        <p class="text-xs">
+            <%= locals.uReview %>
+        </p>
+        <p class="text-xs">by <%= locals.postBy  %></p>
+    </div>
+</div>

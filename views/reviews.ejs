@@ -83,11 +83,11 @@
         <div class="container-sm border rounded">
           <div class="row text-center" style="height: 200px">
             <div class="col">
-              <img src="../img/pixel-7a.jpg" class="img-fluid" alt="" />
+              <img src="../img/<%= phone_info.img %>" class="img-fluid" alt="" />
             </div>
             <div class="col">
-              <p>⭐ 4.7 /5</p>
-              <p>199 Reviews</p>
+              <p>⭐ <%= phone_info.score %> /5</p>
+              <p><%= phone_info.number_of_reviews %> Reviews</p>
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@
               role="tabpanel"
               aria-labelledby="user-reviews-tab"
             >
-              <!-- tab content here -->
+              <!-- tab content -->
               <div class="dropdown mt-2 text-end">
                 <button
                   class="btn btn-outline-primary dropdown-toggle"
@@ -153,101 +153,24 @@
                   <li><a class="dropdown-item" href="#">Oldest</a></li>
                 </ul>
               </div>
+
+              <!-- user reviews -->
               <div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#1</p>
-                      <p class="col col-sm-7">⭐⭐⭐⭐⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">01 Mar 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      සමාජය ප්‍රසිද්ධියේ හොදයි නරකයි කියලා මොනවහරි දෙයක්
-                      කිව්වොත්, ඒකේ අනික් පැත්ත කියලා දැඩි අවධානයක් ඉල්ලන
-                      යාලුවෙක් ඉන්නවා. මගේ මතය කිය කිය වැලෙලනවා... මිනිහගේ ඇත්ත
-                      ජීවිතය වෙනස්.... අහිංසක චරිතයක්..හැබැයි ., මාර දරුණුයි
-                      සමාජ මාධ්‍ය වල , දරුණු විදියට පහර දෙන්නේ...
-                    </p>
-                    <p class="text-xs">by CodeMan</p>
+                <% if(!user_reviews.length){ %>
+                  <div>
+                    <p>No reviews yet.</p>
                   </div>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#2</p>
-                      <p class="col col-sm-7">⭐⭐⭐⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">24 Jan 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      ආගම්වාද,රාජ්‍ය,සමලිංගික,දේව ඇදහිලි මාතෘකා කියලා වෙනසක්
-                      නැහැ ඒයාගේ මතයට විරුද්ධ අයට කැති පොරෝ වර්චුවල් විදියට අරන්
-                      පහර දෙන්නේ..
-                    </p>
-                    <p class="text-xs">by maximux_prime</p>
-                  </div>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#3</p>
-                      <p class="col col-sm-7">⭐⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">01 Mar 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      ගල්කිස්ස හා කන්කසන්තුරේ අතර වායුසමනය කළ සුඛෝපභෝගී දුම්රිය
-                      පළමු වරට අද(4) රාත්‍රි 10 ට ගල්කිස්ස දුම්රිය ස්ථානයෙන්
-                      ගමන් ආරම්භ කරනබව දුම්රිය පාලක මැදිරි කාර්යාලය පවසයි.
-                    </p>
-                    <p class="text-xs">by CodeMan</p>
-                  </div>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#4</p>
-                      <p class="col col-sm-7">⭐⭐⭐⭐⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">24 Jan 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      දූපතක පිහිටි මේ වනෝද්‍යානය තිබෙන්නේ ත්‍රිකුණාමලයට උතුරින්
-                      ඉතාම රමණීය වෙරළ තීරයක් වන නිලාවැලි වෙරළේ සිට කිලෝමීටරයක්
-                      පමණ දුරින්. නිලාවැලි වෙරළට මේ දුපත ඉතා හොඳින් දැකගත
-                      හැකියි. දූපතට ගමන් කිරීමට බෝට්ටු සේවාවක් පවත්වාගෙන යනවා.
-                      බෝට්‌ටු ගමනට ගතවන කාලය විනාඩි 12ක් වගේ කෙටි කාලයක්.
-                    </p>
-                    <p class="text-xs">by maximux_prime</p>
-                  </div>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#5</p>
-                      <p class="col col-sm-7">⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">01 Mar 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      මෙයට පරෙවි දූපත යන නම ලැබිල තියෙන්නේ බ්ලූ රොක් පරෙවියන්
-                      හෙවත් නිල් ගල් පරෙවියන් සිය ගණනක් දුපත වාසස්ථානය කරගෙන
-                      ජීවත්වන නිසා යි. දුපතේ උස් ගල්පර්වත අතර කැදලි තනමින්
-                      හැසිරෙන පරෙවියන් අලංකාර දර්ශනයක් ගෙන එනවා.
-                    </p>
-                    <p class="text-xs">by CodeMan</p>
-                  </div>
-                </div>
-                <div class="card mt-2">
-                  <div class="card-body pb-0">
-                    <div class="row">
-                      <p class="col col-sm-2">#6</p>
-                      <p class="col col-sm-7">⭐⭐⭐⭐</p>
-                      <p class="col-sm-3 text-sm-end text-xs">24 Jan 2023</p>
-                    </div>
-                    <p class="text-xs">
-                      පක්‌ෂි විශේෂඥයන් පවසන්නේ ශ්‍රී ලංකාවේ දැනට ගල් පරෙවියන්
-                      හමුවන ස්‌ථාන කිහිපය අතර පරෙවි දූපත ඉතා වැදගත් බව යි.
-                    </p>
-                    <p class="text-xs">by maximux_prime</p>
-                  </div>
-                </div>
+                <%} else{ %>
+                  <% user_reviews.forEach((review) => { %>
+                    <%-include('partials/user-reviews', 
+                    {rId: review.r_id,
+                    score: review.score,
+                    date: review.post_date,
+                    uReview: review.review,
+                    postBy: review.post_by}) %>
+                  <% }) %>
+                <% } %>
+                
               </div>
               <div class="text-center mt-2">
                 <p class="text-xs">Page - 01</p>
@@ -258,7 +181,7 @@
                 >
               </div>
             </div>
-            <!-- specifications tab content here -->
+            <!-- specifications -->
             <div
               class="tab-pane fade"
               id="specs"

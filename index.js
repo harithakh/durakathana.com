@@ -60,9 +60,10 @@ app.get("/reviews/:id", async (req, res) => {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
     const phoneInfo = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
+    const userReviews = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
     connection.release();
-    
-    res.render("reviews", { phone_info: phoneInfo[0] }); //phoneInfo is an array 
+    //phoneInfo is an array of objects.
+    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews}); 
     
   } catch (err) {
     res.status(500).json({ error: err.message });
