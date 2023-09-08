@@ -59,7 +59,7 @@ app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-app.get("/reviews/:id", async (req, res) => {
+app.get("/reviews/:id/:model", async (req, res) => {
   const phoneId = parseInt(req.params.id);
   try {
     const connection = await pool.getConnection();

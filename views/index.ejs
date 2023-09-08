@@ -124,7 +124,9 @@
               <%-include('partials/first-page-review', 
                 {id: rev.r_id,
                  model : rev.model,
+                 phoneId: rev.phone_id,
                  userName: rev.post_by, 
+                 date: rev.post_date,
                  score: rev.score,
                  review: rev.review}) %> 
               <% }); %>

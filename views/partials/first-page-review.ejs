@@ -1,14 +1,34 @@
 <div class="col">
   <div class="card">
     <div class="card-header">
-      <!-- model must be clickable link -->
-      by :<%=locals.userName %>
+      <!-- model must be clickable link -->      
       <h5 class="card-title"><%=locals.model %></h5>
     </div>
     <div class="card-body">
       <p>
+        by <%=locals.userName %>| 
+        <% const formattedDate = new Date(locals.date).toISOString().split('T')[0]; %>
+        <%=formattedDate%> 
+        <% switch (locals.score) {
+          case 1: %>
+            <p class="col col-sm-7">⭐</p>
+            <% break; 
+          case 2: %>
+            <p class="col col-sm-7">⭐⭐</p>
+            <% break;
+          case 3: %>
+            <p class="col col-sm-7">⭐⭐⭐</p>
+            <% break; 
+          case 4: %>
+            <p class="col col-sm-7">⭐⭐⭐⭐</p>
+            <% break; 
+          case 5: %>
+            <p class="col col-sm-7">⭐⭐⭐⭐⭐</p>
+            <% break; %>
+      <% } %>
         <%=locals.review %>
-        <a href="#" class="card-link">read more ></a>
+        <a href="reviews/<%=locals.phoneId %>" class="card-link">read more ></a>
+        
       </p>
     </div>
   </div>
