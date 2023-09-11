@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Durakathana.com</title>
+    <title>SLmobiles</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -11,10 +11,9 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css" />
-
+    
     <style></style>
     
   </head>
@@ -78,22 +77,62 @@
       <!-- phone intro section -->
       <section>
         <h1 class="text-light bg-primary py-2 ps-3" style="font-size: 18px">
-          <%= phone_info.model %> user reviews Sri Lanka 
+          <%= phone_info.model %> user reviews
         </h1>
-        <div class="container-sm border rounded">
+        <div class="container-sm border rounded border-4"> 
           <div class="row text-center" style="height: 200px">
-            <div class="col">
-              <img src="/img/<%= phone_info.img %>" class="img-fluid" alt="" />
+            <!-- phone image -->
+            <div class="col d-flex justify-content-center align-items-center"  >
+              <img src="/img/<%= phone_info.img %>" class="img-fluid" alt="A picture of <%= phone_info.model %>" />
             </div>
-            <div class="col">
-              <p>⭐ <%= phone_info.score %> /5</p>
-              <p><%= phone_info.number_of_reviews %> Reviews</p>
+
+            <div class="col ">
+              <p class="fs-2 mt-5 badge bg-primary text-wrap" style="width: 11rem;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg> <%= phone_info.score %> /5</p>
+              <p class="fs-5 fw-bolder"><%= phone_info.number_of_reviews %> Reviews</p>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- write review section -->
       <section>
+        <div class="container border rounded border-4 mt-2">        
+        <div class="d-flex justify-content-center my-2">
+          <button type="button" 
+          class="btn btn-primary btn-lg" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#writeReviewCollapse" 
+          aria-expanded="false" 
+          aria-controls="writeReviewCollapse">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+            Write you review</button>
+        </div>
+        <div class="collapse" id="writeReviewCollapse">
+          <form action="">
+            <div class="mb-3">
+              <label for="userNameInput" class="form-label">Name</label>
+              <input type="email" class="form-control" id="userNameInput" placeholder="">
+            </div>
+            <div class="mb-3">
+              <label for="reviewTextInput" class="form-label">Type your review</label>
+              <textarea class="form-control" id="reviewTextInput" rows="3"></textarea>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3">Submit</button>
+            </div>
+          
+          </form>
+        </div>
+      </div>
+      </section>
+
+      <!-- reviews and specifications display section -->
+      <section>  
         <div class="container mt-2">
           <ul class="nav nav-tabs" id="reviewsTabs" role="tablist">
             <li class="nav-item">
@@ -189,16 +228,8 @@
       </section>
     </main>
 
-    <footer class=" ">
-      <!-- footer content or partial HTML files -->
-      <!-- Example: <include src="views/partials/footer.html"></include> -->
-      <div
-        class="d-flex bg-primary justify-content-center align-items-center mt-2"
-        style="height: 100px"
-      >
-        <p class="text-light">&copy; 2023 Durakathana. All rights reserved.</p>
-      </div>
-    </footer>
+    <!-- Footer -->
+    <%-include('partials/footer') %>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

@@ -18,6 +18,7 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
+//test
 const phoneObjects = [
   { id: 1, model: "Aquos Sense7", img: "../img/aquos-sense7.jpg" },
   { id: 2, model: "Iphone 13", img: "../img/iphone-13.jpg" },
