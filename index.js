@@ -1,14 +1,27 @@
 import express from "express";
+import bodyParser from 'body-parser';
 
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { rateLimit } from 'express-rate-limit'
 import pool from './public/js/dbconnection.js'; // Import the database connection
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const router = express.Router();
 const port = 3000;
+
+// Parse JSON request bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//a middleware for Express which is used to limit repeated requests to public APIs 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+});
+app.use(limiter);
 
 //setting view engine to ejs
 app.set("view engine", "ejs");
@@ -74,6 +87,16 @@ app.get("/reviews/:id/:model", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+app.post('/submit', (req, res) =>{
+  const uName = req.body.userName;
+  const textReview = req.body.reviewText;
+
+  console.log(uName);
+  console.log(textReview);
+
+  res.send('Form submitted successfully!');
 });
 
 app.get("/search", (req, res) => {

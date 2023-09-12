@@ -113,21 +113,33 @@
             Write you review</button>
         </div>
         <div class="collapse" id="writeReviewCollapse">
-          <form action="">
+          <!--device review form -->
+          <form action="/submit" method="POST"  >
             <div class="mb-3">
               <label for="userNameInput" class="form-label">Name</label>
-              <input type="email" class="form-control" id="userNameInput" placeholder="">
+              <input 
+                type="text" 
+                class="form-control" 
+                id="userNameInput" 
+                name="userName"
+                placeholder="">
             </div>
             <div class="mb-3">
               <label for="reviewTextInput" class="form-label">Type your review</label>
-              <textarea class="form-control" id="reviewTextInput" rows="3"></textarea>
+              <textarea 
+                class="form-control" 
+                id="reviewTextInput" 
+                name="reviewText"
+                rows="3"></textarea>
             </div>
+            
             <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-3">Submit</button>
+              <button type="submit"  class="btn btn-primary mb-3">Submit</button>
             </div>
           
           </form>
         </div>
+        
       </div>
       </section>
 
