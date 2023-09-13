@@ -13,8 +13,8 @@
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css" />
-    
-    <style></style>
+
+    <script src="/js/scripts.js"></script>
     
   </head>
 
@@ -114,27 +114,55 @@
         </div>
         <div class="collapse" id="writeReviewCollapse">
           <!--device review form -->
-          <form action="/submit" method="POST"  >
+          <form id="reviewForm" action="/submit" method="POST" name="submitReviewForm">
             <div class="mb-3">
-              <label for="userNameInput" class="form-label">Name</label>
+              <label for="userNameInput" class="form-label">නම :</label>
               <input 
                 type="text" 
                 class="form-control" 
                 id="userNameInput" 
                 name="userName"
-                placeholder="">
+                placeholder="" required>
+                <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                  Please enter username.
+                </div>
+          
             </div>
+            <div class="mb-3" >
+              <label for="" class="form-label">Phone එකට දෙන තරු ගාන :</label>
+              <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio1" value="1" required>
+                  <label class="form-check-label" for="inlineRadio1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio2" value="2">
+                  <label class="form-check-label" for="inlineRadio2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio3" value="3">
+                  <label class="form-check-label" for="inlineRadio3">3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio4" value="4">
+                  <label class="form-check-label" for="inlineRadio4">4</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio5" value="5">
+                  <label class="form-check-label" for="inlineRadio5">5</label>
+                </div>
+            </div>
+            <br>
             <div class="mb-3">
-              <label for="reviewTextInput" class="form-label">Type your review</label>
+              <label id="rlabel" for="reviewTextInput" class="form-label" >Review එක type කරන්න :</label>
               <textarea 
                 class="form-control" 
                 id="reviewTextInput" 
                 name="reviewText"
-                rows="3"></textarea>
+                rows="3" required></textarea>
             </div>
-            
             <div class="col-auto">
-              <button type="submit"  class="btn btn-primary mb-3">Submit</button>
+              <button id="reviewSubmitButton" type="submit"  class="btn btn-primary mb-3">Submit</button>
             </div>
           
           </form>

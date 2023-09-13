@@ -91,10 +91,14 @@ app.get("/reviews/:id/:model", async (req, res) => {
 
 app.post('/submit', (req, res) =>{
   const uName = req.body.userName;
+  const starScore = parseInt(req.body.starScore); 
   const textReview = req.body.reviewText;
+  const postDate = new Date().toISOString().split('T')[0];
 
   console.log(uName);
+  console.log(typeof(starScore));
   console.log(textReview);
+
 
   res.send('Form submitted successfully!');
 });
