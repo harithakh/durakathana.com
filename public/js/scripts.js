@@ -1,5 +1,5 @@
 
-// function for button click
+// function for button click - header.ejs
 function navigateToPage(route) {
   window.location.href = route;
 }

@@ -1,26 +1,43 @@
 <header >
-  <nav class="navbar navbar-expand-md bg-light px-2">
-    <div class="col-9">
-      <a class="navbar-brand" href="/">SLmobiles</a>
-    </div>
-    <div class="col-3 text-end">
-      <!-- it's posible to use  '/login' directly. but this approach gives more control -->
-      <a class="btn btn" role="button" onclick="navigateToPage('/login')">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
-          fill="blue"
-          class="bi bi-person-circle"
-          viewBox="0 0 16 16"
-        >
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-          <path
-            fill-rule="evenodd"
-            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-          />
-        </svg>
-      </a>
+  <nav class="navbar sticky-top navbar-expand-sm" aria-label="Third navbar example">
+    <div class="container-fluid">
+        
+        <button class="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarslm"
+            aria-controls="navbarslm" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">SLmobiles</a>
+
+        <div class="collapse navbar-collapse d-lg-flex " id="navbarslm">
+            <ul class="navbar-nav justify-content-lg-center ms-auto mb-2 pe-5 mb-sm-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#">Suggest a Device</a>
+                </li>
+            </ul>
+            <!-- it's posible to use  '/login' directly. but this approach gives more control -->
+        </div>
+        <a class="btn btn d-lg-flex" role="button" onclick="navigateToPage('/login')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="blue" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+            <path
+                fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+            />
+            </svg>
+        </a>
     </div>
   </nav>
 </header>
