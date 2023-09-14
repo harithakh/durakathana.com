@@ -99,76 +99,81 @@
       <!-- write review section -->
       <section>
         <div class="container border rounded border-4 mt-2">        
-        <div class="d-flex justify-content-center my-2">
-          <button type="button" 
-          class="btn btn-primary btn-lg" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#writeReviewCollapse" 
-          aria-expanded="false" 
-          aria-controls="writeReviewCollapse">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-            </svg>
-            Write you review</button>
-        </div>
-        <div class="collapse" id="writeReviewCollapse">
-          <!--device review form -->
-          <form id="reviewForm" action="/submit" method="POST" name="submitReviewForm">
-            <div class="mb-3">
-              <label for="userNameInput" class="form-label">නම :</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="userNameInput" 
-                name="userName"
-                placeholder="" required>
-                <div id="validationServerUsernameFeedback" class="invalid-feedback">
-                  Please enter username.
-                </div>
-          
-            </div>
-            <div class="mb-3" >
-              <label for="" class="form-label">Phone එකට දෙන තරු ගාන :</label>
+          <div class="d-flex justify-content-center my-2">
+            <button type="button" 
+            class="btn btn-primary btn-lg" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#writeReviewCollapse" 
+            aria-expanded="false" 
+            aria-controls="writeReviewCollapse">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              </svg>
+              Write your review</button>
+          </div>
+          <div class="collapse" id="writeReviewCollapse">
+            <p>
+              <%=phone_info.model %> එක ගැන ඔයාගේ review එක මෙතනින් අතුළත් කරන්න.<br>
+            </p>
+            <!--device review form -->
+            <form id="reviewForm" action="/submit/<%=phone_info.phone_id%>" method="POST" name="submitReviewForm">
+              <div class="mb-3">
+                <label for="userNameInput" class="form-label">නම :</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="userNameInput" 
+                  name="userName"
+                  placeholder="" required>
+                  <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                    Please enter username.
+                  </div>
+            
+              </div>
+              <div class="mb-3" >
+                <label for="" class="form-label">Phone එකට දෙන තරු ගාන :</label>
+                <br>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio1" value="1" onclick="displayStars('1');" required>
+                    <label class="form-check-label" for="inlineRadio1">1</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio2" value="2" onclick="displayStars('2');">
+                    <label class="form-check-label" for="inlineRadio2">2</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio3" value="3" onclick="displayStars('3');">
+                    <label class="form-check-label" for="inlineRadio3">3</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio4" value="4" onclick="displayStars('4');">
+                    <label class="form-check-label" for="inlineRadio4">4</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio5" value="5" onclick="displayStars('5');">
+                    <label class="form-check-label" for="inlineRadio5">5</label>
+                  </div>
+                  <div class="container ps-3">
+                    <p id="starsDisplayP"></p>
+                  </div>
+              </div>
               <br>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio1" value="1" required>
-                  <label class="form-check-label" for="inlineRadio1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio2" value="2">
-                  <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio3" value="3">
-                  <label class="form-check-label" for="inlineRadio3">3</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio4" value="4">
-                  <label class="form-check-label" for="inlineRadio4">4</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="starScore" id="inlineRadio5" value="5">
-                  <label class="form-check-label" for="inlineRadio5">5</label>
-                </div>
-            </div>
-            <br>
-            <div class="mb-3">
-              <label id="rlabel" for="reviewTextInput" class="form-label" >Review එක type කරන්න :</label>
-              <textarea 
-                class="form-control" 
-                id="reviewTextInput" 
-                name="reviewText"
-                rows="3" required></textarea>
-            </div>
-            <div class="col-auto">
-              <button id="reviewSubmitButton" type="submit"  class="btn btn-primary mb-3">Submit</button>
-            </div>
-          
-          </form>
+              <div class="mb-3">
+                <label id="rlabel" for="reviewTextInput" class="form-label" >Review එක type කරන්න :</label>
+                <textarea 
+                  class="form-control" 
+                  id="reviewTextInput" 
+                  name="reviewText"
+                  rows="3" required></textarea>
+              </div>
+              <div class="col-auto">
+                <button id="reviewSubmitButton" type="submit"  class="btn btn-primary mb-3">Submit</button>
+              </div>
+            
+            </form>
+          </div>
         </div>
-        
-      </div>
       </section>
 
       <!-- reviews and specifications display section -->

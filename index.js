@@ -89,15 +89,29 @@ app.get("/reviews/:id/:model", async (req, res) => {
   }
 });
 
-app.post('/submit', (req, res) =>{
+app.post('/submit/:id', async (req, res) => {
   const uName = req.body.userName;
-  const starScore = parseInt(req.body.starScore); 
-  const textReview = req.body.reviewText;
+  const phoneId = parseInt(req.params.id);
   const postDate = new Date().toISOString().split('T')[0];
+  const starScore = parseInt(req.body.starScore);
+  const textReview = req.body.reviewText;
 
   console.log(uName);
-  console.log(typeof(starScore));
   console.log(textReview);
+  try{
+    const connection = await pool.getConnection();
+    await connection.query('USE slmobi');
+
+    await connection.query(`
+    INSERT INTO pending_reviews
+    (post_by, post_date, score, review, phone_id)
+    VALUES('${uName}', '${postDate}', ${starScore}, '${textReview}', ${phoneId});
+    `);
+
+    connection.release();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 
 
   res.send('Form submitted successfully!');
