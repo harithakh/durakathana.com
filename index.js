@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //a middleware for Express which is used to limit repeated requests to public APIs 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 200, // limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
 });
 app.use(limiter);
@@ -117,8 +117,26 @@ app.post('/submit/:id', async (req, res) => {
   res.send('Form submitted successfully!');
 });
 
-app.get("/search", (req, res) => {
-  res.render("search");
+app.get("/search", async (req, res) => {
+  const searchQuery = req.query.searchQuery;
+  //search logic mus be added. searchQuery must be secure-spaces ,invalid letters. etc 
+
+  const sql = `SELECT * FROM phones WHERE MATCH(model) AGAINST('${searchQuery}')`;
+
+  try{
+    const connection = await pool.getConnection();
+    await connection.query('USE slmobi');
+    const searchResults = await connection.query(sql);
+
+    connection.release();
+    console.log(searchResults);
+    res.render("search", {search_results: searchResults });
+  }catch(err) {
+    res.status(500).json({ error: err.message });
+
+  }
+  
+  
 });
 
 app.get("/account", (req, res) => {

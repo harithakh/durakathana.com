@@ -16,20 +16,51 @@
 
         <div class="collapse navbar-collapse d-lg-flex " id="navbarslm">
             <ul class="navbar-nav justify-content-lg-center ms-auto mb-2 pe-5 mb-sm-0">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Home </a>
+                </li> -->
+
+                <!-- <li>
+                    <form class="col form-check-inline d-flex">
+                        <input
+                          class="form-control"
+                          type="search"
+                          placeholder="Search phone..."
+                          aria-label="Search"
+                        />
+                        <a
+                          class="btn btn-outline-secondary mx-2"
+                          href="../public/search.html"
+                          role="button"
+                          >Search</a
+                        >
+                      </form>
+                </li> -->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">All Brands</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Apple</a></li>
+                        <li><a class="dropdown-item" href="#">Samsung</a></li>
+                        <li><a class="dropdown-item" href="#">Xiaomi</a></li>
+                        <li><a class="dropdown-item" href="#">Sony</a></li>
+                        <li><a class="dropdown-item" href="#">Google</a></li>
+                        <li><a class="dropdown-item" href="#">Nokia</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link " href="#">Suggest a Device</a>
                 </li>
                 
                 <li class="nav-item">
                     <a class="nav-link" href="#">About Us</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#">Suggest a Device</a>
-                </li>
+                
             </ul>
             <!-- it's posible to use  '/login' directly. but this approach gives more control -->
         </div>
-        <a class="btn btn d-lg-flex" role="button" onclick="navigateToPage('/login')">
+        <a class="btn btn d-lg-flex" role="button" href="/login">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="blue" class="bi bi-person-circle" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
             <path

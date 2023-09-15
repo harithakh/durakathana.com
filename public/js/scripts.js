@@ -1,9 +1,3 @@
-
-// function for button click - header.ejs
-function navigateToPage(route) {
-  window.location.href = route;
-}
-
 // alert for unfilled fields in the review form - reviews.ejs
 document.addEventListener('DOMContentLoaded', function () {
 
