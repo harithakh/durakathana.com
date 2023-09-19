@@ -60,7 +60,9 @@ app.get("/", async (req, res) => {
       userReviews: rows_reviews
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // res.status(500).json({ error: err.message });
+    console.log(err.message);
+    res.render('errors');
   }
 
 });
@@ -85,10 +87,13 @@ app.get("/reviews/:id/:model", async (req, res) => {
     res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // res.status(500).json({ error: 'Internal Server Error' });
+    console.log(err.message);
+    res.render('errors');
   }
 });
 
+//review submit
 app.post('/submit/:id', async (req, res) => {
   const uName = req.body.userName;
   const phoneId = parseInt(req.params.id);
@@ -110,7 +115,9 @@ app.post('/submit/:id', async (req, res) => {
 
     connection.release();
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // res.status(500).json({ error: err.message });
+    console.log(err.message);
+    res.render('errors');
   }
 
 
@@ -119,24 +126,28 @@ app.post('/submit/:id', async (req, res) => {
 
 app.get("/search", async (req, res) => {
   const searchQuery = req.query.searchQuery;
-  //search logic mus be added. searchQuery must be secure-spaces ,invalid letters. etc 
+  //search logic mus be added. prevent sql injections
 
-  const sql = `SELECT * FROM phones WHERE MATCH(model) AGAINST('${searchQuery}')`;
+  //replace symbols other than lettes, numbers and dots. 
+  const regex = /[^a-zA-Z0-9. ]/g;
+  const sanitizedString = searchQuery.replace(regex, '');
 
+  // const sql = `SELECT * FROM phones WHERE MATCH(model) AGAINST('${sanitizedString}')`;
+  const sql = `SELECT * FROM phones WHERE model LIKE '%${sanitizedString}%'`
+  console.log(sanitizedString);
   try{
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
     const searchResults = await connection.query(sql);
 
     connection.release();
-    console.log(searchResults);
+    // console.log(searchResults);
     res.render("search", {search_results: searchResults });
   }catch(err) {
-    res.status(500).json({ error: err.message });
-
+    // res.status(500).json({ error: 'Internal Server Error'});
+    console.log(err.message);
+    res.render('errors');
   }
-  
-  
 });
 
 app.get("/account", (req, res) => {
