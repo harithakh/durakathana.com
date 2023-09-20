@@ -1,2 +1,4 @@
 # slmobiles.com
-This is a mobile phone review site driven by user reviews.
+A user-driven platform where mobile phone enthusiasts could
+share their experiences, reviews, and ratings of various mobile
+phones.

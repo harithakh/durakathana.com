@@ -76,7 +76,7 @@ app.get("/reviews/:id/:model", async (req, res) => {
     const [userReviews] = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
     connection.release();
     //phoneInfo is an array of objects.
-    console.log(phoneInfo)
+    // console.log(phoneInfo)
     res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews });
 
   } catch (err) {
@@ -107,14 +107,14 @@ app.post('/submit/:id', async (req, res) => {
     `);
 
     connection.release();
+    res.render('review-feedback');
+    
   } catch (err) {
     // res.status(500).json({ error: err.message });
     console.log(err.message);
     res.render('errors');
   }
-
-
-  res.send('Form submitted successfully!');
+  
 });
 
 //search
@@ -135,6 +135,23 @@ app.get("/search", async (req, res) => {
   }catch(err){
     console.log(err.message);
     res.render('errors')
+  }
+});
+
+//get brands
+app.get('/brand/:brand', async (req, res)=>{
+  const PhoneBrand = req.params.brand;
+  // console.log(PhoneBrand);
+  try{
+    const connection = await pool.getConnection();
+    await connection.query('USE slmobi');
+
+    const [brandResults] = await connection.query(`SELECT * FROM phones WHERE brand='${PhoneBrand}';`)
+    // console.log(brandResults[0])
+    res.render('search', {search_results: brandResults });
+  }catch(err){
+    console.log(err.message);
+    res.render('errors');
   }
 });
 
