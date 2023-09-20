@@ -5,7 +5,7 @@ import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { rateLimit } from 'express-rate-limit'
-import pool from './public/js/dbconnection.js'; // Import the database connection
+import pool from './public/js/dbconnection.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -31,33 +31,24 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
-//test
-const phoneObjects = [
-  { id: 1, model: "Aquos Sense7", img: "../img/aquos-sense7.jpg" },
-  { id: 2, model: "Iphone 13", img: "../img/iphone-13.jpg" },
-];
-
 app.get("/", async (req, res) => {
   //getting data from db
   try {
-    const conn = await pool.getConnection();
-
-    // Select the database
-    await conn.query('USE slmobi');
     //get top ranking phones
-    const rows_top_ranks = await conn.query('SELECT * FROM phones ORDER  BY score DESC LIMIT 8;');
+    const [rowsTopRanks] = await pool.query('SELECT * FROM phones ORDER BY score DESC LIMIT 8');
+
     //get most reviewed phones
-    const rows_most_reviewed = await conn.query('SELECT * FROM phones ORDER  BY number_of_reviews DESC LIMIT 8;');
+    const [rowsMostReviewed] = await pool.query('SELECT * FROM phones ORDER  BY number_of_reviews DESC LIMIT 8;');
+
     //get data from user_reviews inner join with phones table
-    const rows_reviews = await conn.query('SELECT user_reviews.*, phones.model FROM user_reviews LEFT JOIN phones ON user_reviews.phone_id = phones.phone_id ORDER BY post_date DESC LIMIT 4;');
-    //release the connection
-    conn.release();
+    const [rowsReviews] = await pool.query('SELECT user_reviews.*, phones.model FROM user_reviews LEFT JOIN phones ON user_reviews.phone_id = phones.phone_id ORDER BY post_date DESC LIMIT 4;')
+
     /* dummy data are added to score and number of reviews for testing.
       passing data to home page.*/
     res.render("index", {
-      phonesTopRanks: rows_top_ranks,
-      phonesMostReviewed: rows_most_reviewed,
-      userReviews: rows_reviews
+      phonesTopRanks: rowsTopRanks,
+      phonesMostReviewed: rowsMostReviewed,
+      userReviews: rowsReviews
     });
   } catch (err) {
     // res.status(500).json({ error: err.message });
@@ -80,10 +71,12 @@ app.get("/reviews/:id/:model", async (req, res) => {
   try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
-    const phoneInfo = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
-    const userReviews = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
+
+    const [phoneInfo] = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
+    const [userReviews] = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
     connection.release();
     //phoneInfo is an array of objects.
+    console.log(phoneInfo)
     res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews });
 
   } catch (err) {
@@ -124,6 +117,7 @@ app.post('/submit/:id', async (req, res) => {
   res.send('Form submitted successfully!');
 });
 
+//search
 app.get("/search", async (req, res) => {
   const searchQuery = req.query.searchQuery;
   //search logic mus be added. prevent sql injections
@@ -131,22 +125,16 @@ app.get("/search", async (req, res) => {
   //replace symbols other than lettes, numbers and dots. 
   const regex = /[^a-zA-Z0-9. ]/g;
   const sanitizedString = searchQuery.replace(regex, '');
+  
+  const sql = 'SELECT * FROM phones WHERE model LIKE ?';
+  const searchPattern = `%${sanitizedString}%`;
 
-  // const sql = `SELECT * FROM phones WHERE MATCH(model) AGAINST('${sanitizedString}')`;
-  const sql = `SELECT * FROM phones WHERE model LIKE '%${sanitizedString}%'`
-  console.log(sanitizedString);
   try{
-    const connection = await pool.getConnection();
-    await connection.query('USE slmobi');
-    const searchResults = await connection.query(sql);
-
-    connection.release();
-    // console.log(searchResults);
-    res.render("search", {search_results: searchResults });
-  }catch(err) {
-    // res.status(500).json({ error: 'Internal Server Error'});
+    const [rows] = await pool.query(sql, [searchPattern])
+    res.render("search", {search_results: rows });
+  }catch(err){
     console.log(err.message);
-    res.render('errors');
+    res.render('errors')
   }
 });
 
