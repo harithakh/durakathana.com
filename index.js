@@ -107,7 +107,7 @@ app.post('/submit/:id', async (req, res) => {
     `);
 
     connection.release();
-    res.render('review-feedback');
+    res.render('feedback');
     
   } catch (err) {
     // res.status(500).json({ error: err.message });
@@ -153,6 +153,10 @@ app.get('/brand/:brand', async (req, res)=>{
     console.log(err.message);
     res.render('errors');
   }
+});
+
+app.get('/suggest-a-device', (req, res) => {
+  res.render('suggest-a-device');
 });
 
 app.get("/account", (req, res) => {
