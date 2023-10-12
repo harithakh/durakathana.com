@@ -24,19 +24,22 @@ h5{
   }
 
 /* table column width */
-@media (min-width: 0px) {
+.td-width{
+  width: 40%;
+}
+/* @media (min-width: 0px) {
     .td-width {
       width: 75px;
     }
-  }
-@media (min-width: 576px) {
+  } */
+/* @media (max-width: 576px) {
     .td-width {
       width: 150px;
     }
-}  
+}   */
 
-@media (min-width: 768px) {
+/* @media (max-width: 768px) {
     .td-width {
       width: 250px;
     }
-  }
+  } */
