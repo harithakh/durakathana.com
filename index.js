@@ -72,12 +72,14 @@ app.get("/reviews/:id/:model", async (req, res) => {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
+    //phoneInfo is an array of objects.
     const [phoneInfo] = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
     const [userReviews] = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
+    const [specs] = await connection.query(`SELECT * FROM specs WHERE phone_id=${phoneId}`);
+
     connection.release();
-    //phoneInfo is an array of objects.
-    // console.log(phoneInfo)
-    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews });
+    // console.log(specs[0].phone_id);
+    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews, phone_specs: specs[0]});
 
   } catch (err) {
     // res.status(500).json({ error: 'Internal Server Error' });

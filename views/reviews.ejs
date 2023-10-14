@@ -183,6 +183,7 @@
               <h1 class="text-light bg-primary py-2 ps-3 rounded" style="font-size: 18px">
                 Reviews by Users
               </h1>
+              <!-- sorting dropdown -->
               <div class="dropdown mt-2 text-end">
                 <button
                   class="btn btn-outline-primary dropdown-toggle"
@@ -235,7 +236,20 @@
               </div>
             </div>
             <!-- specifications -->
-            <%-include('partials/specifications')  %>
+            <%-include('partials/specifications', {
+              id: phone_specs.phone_id,
+              model: phone_specs.model, 
+              releaseDate: phone_specs.release_date,
+              dimensions: phone_specs.dimensions,
+              weight: phone_specs.weight,
+              displaySize: phone_specs.display_size,
+              os: phone_specs.os,
+              chipset: phone_specs.chipset,
+              internalMemory: phone_specs.internal_memory,
+              mainCam: phone_specs.main_cam,
+              selfieCam: phone_specs.selfie_cam,
+              battery: phone_specs.battery
+            })  %>
           </div>
         </div>
       </section>

@@ -10,7 +10,7 @@
             <tbody>
                 <tr>
                     <td class="td-width">Released</td>
-                    <td>2023, May 10</td>
+                    <td><%=locals.releaseDate %></td>
                 </tr>
             </tbody>
         </table>
@@ -23,11 +23,11 @@
             <tbody>
                 <tr>
                     <td class="td-width">Dimensions</td>
-                    <td>152 x 72.9 x 9 mm</td>
+                    <td><%=locals.dimensions %></td>
                 </tr>
                 <tr>
                     <td>Weight</td>
-                    <td>193.5g</td>
+                    <td><%=locals.weight %></td>
                 </tr>
                 
             </tbody>
@@ -41,9 +41,7 @@
             <tbody>
                 <tr>
                     <td class="td-width">Size</td>
-                    <td>
-                        6.1 inches
-                    </td>
+                    <td><%=locals.displaySize %></td>
                 </tr>
             </tbody>
         </table>
@@ -56,11 +54,11 @@
             <tbody>
                 <tr>
                     <td class="td-width">OS</td>
-                    <td>Android 13</td>
+                    <td><%=locals.os %></td>
                 </tr>
                 <tr>
                     <td class="td-width">Chipset</td>
-                    <td>Google Tensor G2 (5 nm)</td>
+                    <td><%=locals.chipset %></td>
                 </tr>
             </tbody>
         </table>
@@ -73,22 +71,21 @@
             <tbody>
                 <tr>
                     <td class="td-width">Internal</td>
-                    <td>128GB 8GB RAM</td>
+                    <td><%=locals.internalMemory %></td>
                 </tr>
             </tbody>
         </table>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Main Camera</th>
+                    <th>Main </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="td-width">Dual</td>
+                    <td class="td-width">Main Camera</td>
                     <td>
-                        64 MP, f/1.9, 26mm (wide)<br>
-                        13 MP, f/2.2, 120˚ (ultrawide)
+                        <%=locals.mainCam %>
                     </td>
                 </tr>
             </tbody>
@@ -96,13 +93,13 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Selfie Camera</th>
+                    <th>Selfie </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="td-width">Single</td>
-                    <td>13 MP, f/2.2, 20mm (ultrawide)</td>
+                    <td class="td-width">Selfie Camera</td>
+                    <td><%=locals.selfieCam %></td>
                 </tr>
             </tbody>
         </table>
@@ -115,7 +112,7 @@
             <tbody>
                 <tr>
                     <td class="td-width">Type</td>
-                    <td>Li-Po 4385 mAh</td>
+                    <td><%=locals.battery %></td>
                 </tr>
             </tbody>
         </table>
