@@ -197,15 +197,16 @@
 
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">Rating: High to Low</a>
+                    <a class="dropdown-item" href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/high_to_low/page/1">Rating: High to Low</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">Rating: Low to High</a>
+                    <a class="dropdown-item" href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/low_to_high/page/1">Rating: Low to High</a>
                   </li>
-                  <li><a class="dropdown-item" href="#">Newest</a></li>
-                  <li><a class="dropdown-item" href="#">Oldest</a></li>
+                  <li><a class="dropdown-item" href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/latest/page/1">Latest</a></li>
+                  <li><a class="dropdown-item" href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/oldest/page/1">Oldest</a></li>
                 </ul>
               </div>
+              <p class="text-end">Sort by : <%= sort_by %></p>
 
               <!-- user reviews -->
               <div>
@@ -226,14 +227,40 @@
                 <% } %>
                 
               </div>
+              
               <div class="text-center mt-2">
-                <p >Page - 01</p>
+                <p >Page - <%= page_number %></p>
               </div>
-              <div class="text-end">
-                <a class="btn btn-outline-primary" href="#" role="button"
-                  >Next >></a
-                >
+
+              <div class="row">
+                <div class="col text-start">
+                  <% if(page_number<2){ %>
+                    <a class="btn btn-outline-primary disabled"
+                    role="button" > Previous </a>
+                  <% }else {%>
+                    <a class="btn btn-outline-primary " 
+                    href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/oldest/page/<%= page_number-1 %>" 
+                    role="button"
+                    >Previous</a>
+                  <% } %>
+                </div>
+                <div class="col text-end">
+                  <% if(phone_info.number_of_reviews==0 || (phone_info.number_of_reviews)-(page_number*10)<1) {%>
+                    <!-- if the number of reviews = 0 or remaining number of reviews of a page are less than 10.this link render -->
+                    <a class="btn btn-outline-primary disabled"
+                    role="button" > Next </a>
+                  <% } else {%>
+                    <a 
+                    class="btn btn-outline-primary" 
+                    href="/reviews/<%=phone_info.phone_id %>/<%= phone_info.model %>/oldest/page/<%= page_number+1 %>" 
+                    role="button"
+                      >Next</a
+                    >
+
+                  <% } %>
+                </div>
               </div>
+              
             </div>
             <!-- specifications -->
             <%-include('partials/specifications', {

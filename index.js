@@ -66,20 +66,75 @@ app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-app.get("/reviews/:id/:model", async (req, res) => {
+app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
   const phoneId = parseInt(req.params.id);
+  const sortBy = req.params.sort;
+  const pageNumber = parseInt(req.params.pNumber);
+  
+  let startRow = (pageNumber - 1)*10;
+  let endRow = startRow + 10;
+  
+
   try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
     //phoneInfo is an array of objects.
     const [phoneInfo] = await connection.query(`SELECT * FROM phones WHERE phone_id=${phoneId};`);
-    const [userReviews] = await connection.query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId};`);
     const [specs] = await connection.query(`SELECT * FROM specs WHERE phone_id=${phoneId}`);
 
-    connection.release();
-    // console.log(specs[0].phone_id);
-    res.render("reviews", { phone_info: phoneInfo[0], user_reviews: userReviews, phone_specs: specs[0]});
+    if (sortBy == 'latest') {
+
+      const [userReviews] = await connection.query(
+        `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date DESC LIMIT ${startRow}, ${endRow};`);
+      // console.log(userReviews.length)
+      connection.release();
+      // console.log(specs[0].phone_id);
+      res.render("reviews", {
+        phone_info: phoneInfo[0],
+        user_reviews: userReviews,
+        phone_specs: specs[0],
+        sort_by: "Latest first",
+        page_number: pageNumber
+      });
+    } else if (sortBy == 'oldest') {
+
+      const [userReviews] = await connection.query(
+        `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date ASC LIMIT ${startRow}, ${endRow};`);
+      connection.release();
+
+      res.render("reviews", { 
+        phone_info: phoneInfo[0], 
+        user_reviews: userReviews, 
+        phone_specs: specs[0], 
+        sort_by: "Oldest first",
+        page_number: pageNumber });
+    } else if (sortBy == 'high_to_low') {
+
+      const [userReviews] = await connection.query(
+        `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score DESC LIMIT ${startRow}, ${endRow};`);
+      connection.release();
+
+      res.render("reviews", { 
+        phone_info: phoneInfo[0], 
+        user_reviews: userReviews, 
+        phone_specs: specs[0], 
+        sort_by: "High to low",
+        page_number: pageNumber });
+    } else if (sortBy == 'low_to_high') {
+
+      const [userReviews] = await connection.query(
+        `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score ASC LIMIT ${startRow}, ${endRow};`);
+      connection.release();
+
+      res.render("reviews", { 
+        phone_info: phoneInfo[0], 
+        user_reviews: userReviews, 
+        phone_specs: specs[0], 
+        sort_by: "Low to high",
+        page_number: pageNumber });
+    }
+
 
   } catch (err) {
     // res.status(500).json({ error: 'Internal Server Error' });
@@ -98,7 +153,7 @@ app.post('/submit/:id', async (req, res) => {
 
   console.log(uName);
   console.log(textReview);
-  try{
+  try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
@@ -110,13 +165,13 @@ app.post('/submit/:id', async (req, res) => {
 
     connection.release();
     res.render('feedback');
-    
+
   } catch (err) {
     // res.status(500).json({ error: err.message });
     console.log(err.message);
     res.render('errors');
   }
-  
+
 });
 
 //search
@@ -127,31 +182,31 @@ app.get("/search", async (req, res) => {
   //replace symbols other than lettes, numbers and dots. 
   const regex = /[^a-zA-Z0-9. ]/g;
   const sanitizedString = searchQuery.replace(regex, '');
-  
+
   const sql = 'SELECT * FROM phones WHERE model LIKE ?';
   const searchPattern = `%${sanitizedString}%`;
 
-  try{
+  try {
     const [rows] = await pool.query(sql, [searchPattern])
-    res.render("search", {search_results: rows });
-  }catch(err){
+    res.render("search", { search_results: rows });
+  } catch (err) {
     console.log(err.message);
     res.render('errors')
   }
 });
 
 //get brands
-app.get('/brand/:brand', async (req, res)=>{
+app.get('/brand/:brand', async (req, res) => {
   const PhoneBrand = req.params.brand;
   // console.log(PhoneBrand);
-  try{
+  try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
     const [brandResults] = await connection.query(`SELECT * FROM phones WHERE brand='${PhoneBrand}';`)
     // console.log(brandResults[0])
-    res.render('search', {search_results: brandResults });
-  }catch(err){
+    res.render('search', { search_results: brandResults });
+  } catch (err) {
     console.log(err.message);
     res.render('errors');
   }
