@@ -84,7 +84,8 @@
                model : phone.model,
                img: 'img/'+phone.img, 
                score: phone.score,
-               no_of_reviews: phone.number_of_reviews}) %> 
+               no_of_reviews: phone.number_of_reviews,
+                sort_reviews: 'latest'}) %> 
             <% }); %>
           </div>
         </div>
@@ -106,7 +107,8 @@
                  userName: rev.post_by, 
                  date: rev.post_date,
                  score: rev.score,
-                 review: rev.review}) %> 
+                 review: rev.review,
+                sort_reviews: 'latest'}) %> 
               <% }); %>
 
           </div>
