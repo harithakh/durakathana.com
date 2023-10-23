@@ -67,10 +67,6 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
 app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
   const phoneId = parseInt(req.params.id);
   const sortBy = req.params.sort;
