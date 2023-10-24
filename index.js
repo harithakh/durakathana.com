@@ -6,7 +6,9 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { rateLimit } from 'express-rate-limit'
 import pool from './public/js/dbconnection.js';
+import session from 'express-session';
 import { config } from 'dotenv';
+import bcrypt from 'bcrypt';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -18,6 +20,15 @@ config();
 
 // Parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  session({ 
+    secret: process.env.SESSION_SECRET, 
+    resave: false, 
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 }, // Set the maximum age of the session to one hour
+  }));
+
 
 //a middleware for Express which is used to limit repeated requests to public APIs 
 const limiter = rateLimit({
@@ -63,18 +74,13 @@ app.get("/", async (req, res) => {
 
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
   const phoneId = parseInt(req.params.id);
   const sortBy = req.params.sort;
   const pageNumber = parseInt(req.params.pNumber);
-  
-  let startRow = (pageNumber - 1)*10;
+
+  let startRow = (pageNumber - 1) * 10;
   let endRow = startRow + 10;
-  
 
   try {
     const connection = await pool.getConnection();
@@ -104,36 +110,39 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date ASC LIMIT ${startRow}, ${endRow};`);
       connection.release();
 
-      res.render("reviews", { 
-        phone_info: phoneInfo[0], 
-        user_reviews: userReviews, 
-        phone_specs: specs[0], 
+      res.render("reviews", {
+        phone_info: phoneInfo[0],
+        user_reviews: userReviews,
+        phone_specs: specs[0],
         sort_by: "Oldest first",
-        page_number: pageNumber });
+        page_number: pageNumber
+      });
     } else if (sortBy == 'high_to_low') {
 
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score DESC LIMIT ${startRow}, ${endRow};`);
       connection.release();
 
-      res.render("reviews", { 
-        phone_info: phoneInfo[0], 
-        user_reviews: userReviews, 
-        phone_specs: specs[0], 
+      res.render("reviews", {
+        phone_info: phoneInfo[0],
+        user_reviews: userReviews,
+        phone_specs: specs[0],
         sort_by: "High to low",
-        page_number: pageNumber });
+        page_number: pageNumber
+      });
     } else if (sortBy == 'low_to_high') {
 
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score ASC LIMIT ${startRow}, ${endRow};`);
       connection.release();
 
-      res.render("reviews", { 
-        phone_info: phoneInfo[0], 
-        user_reviews: userReviews, 
-        phone_specs: specs[0], 
+      res.render("reviews", {
+        phone_info: phoneInfo[0],
+        user_reviews: userReviews,
+        phone_specs: specs[0],
         sort_by: "Low to high",
-        page_number: pageNumber });
+        page_number: pageNumber
+      });
     }
 
 
@@ -217,9 +226,61 @@ app.get('/suggest-a-device', (req, res) => {
   res.render('suggest-a-device');
 });
 
-app.get("/account", (req, res) => {
+//passwor hashing
+// bcrypt.genSalt(10, (err, salt) => {
+//   bcrypt.hash('type password here', salt, (err, hash) => {
+//     // Store 'hash' securely in your code or a database
+//     console.log(hash);
+//   });
+// });
+
+// A middleware to check authentication
+async function authenticate(req, res, next) {
+  const password = req.body.accpw;
+
+  try {
+    const [queryResult] = await pool.query('SELECT password FROM users WHERE id=1;');
+    const hashedPassword = queryResult[0].password;
+      const result = await bcrypt.compare(password, hashedPassword);
+      if (result) {
+        req.session.authenticated = true; // Set an "authenticated" property in the session
+        
+        next(); // Passwords match, continue to the account.ejs page
+      } else {
+        res.status(401).send('Authentication failed'); // Passwords don't match
+      }
+  } catch (error) {
+    console.error('Error querying the database:', error);
+    res.status(500).send('Authentication failed');
+  }
+}
+
+// Middleware to check authentication
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.authenticated) {
+    return next(); // User is authenticated
+  }
+  res.redirect('/log-me'); // Redirect to the login page if not authenticated
+}
+
+// This route only renders the login page
+app.get("/log-me", (req, res) => {
+  res.render("login");
+});
+
+app.post("/master_acc", authenticate, (req, res) => {
   res.render("account");
 });
+
+app.get("/edit/:status",isAuthenticated, (req, res) => {
+  const reviewStatus = req.params.status;
+
+  if (reviewStatus == 'pending') {
+    res.render("pending-reviews")
+  } else if (reviewStatus == 'published') {
+    //published reviews can be edited here.
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server runnig on port${port}`);
