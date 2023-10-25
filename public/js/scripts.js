@@ -63,3 +63,4 @@ function displayStars(numOfStars) {
   }
 
 }
+

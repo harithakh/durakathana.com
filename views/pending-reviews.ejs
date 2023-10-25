@@ -16,11 +16,30 @@
     
         <script src="/js/scripts.js"></script>
         
+        
       </head>
 <body>
     <!-- Header -->
     <%- include('partials/header') %>
 
+    <hr>
+    <section>
+      <div class="container">
+
+        <% pending_reviews.forEach((review) => { %>
+          <%- include('partials/pending-review-card',
+          {reviewId: review.rev_id,
+          postBy: review.post_by,
+          postDate: review.post_date,
+          score: review.score,
+          userReview: review.review,
+          phoneModel: review.model
+          }); %>
+        
+        <% }); %>
+
+      </div>
+    </section>
 
     <!-- Footer -->
     <%-include('partials/footer') %>

@@ -9,6 +9,7 @@ import pool from './public/js/dbconnection.js';
 import session from 'express-session';
 import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
+import { Console } from "console";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -161,16 +162,20 @@ app.post('/submit/:id', async (req, res) => {
   const starScore = parseInt(req.body.starScore);
   const textReview = req.body.reviewText;
 
-  console.log(uName);
-  console.log(textReview);
+  // console.log(uName);
+  // console.log(textReview);
   try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
+    const [modelObject] = await connection.query(`SELECT model FROM phones WHERE phone_id=${phoneId};`);
+    const modelName = modelObject[0].model;
+    console.log(modelName)
+      
     await connection.query(`
     INSERT INTO pending_reviews
-    (post_by, post_date, score, review, phone_id)
-    VALUES('${uName}', '${postDate}', ${starScore}, '${textReview}', ${phoneId});
+    (post_by, post_date, score, review, phone_id, model)
+    VALUES('${uName}', '${postDate}', ${starScore}, '${textReview}', ${phoneId}, '${modelName}');
     `);
 
     connection.release();
@@ -272,15 +277,32 @@ app.post("/master_acc", authenticate, (req, res) => {
   res.render("account");
 });
 
-app.get("/edit/:status",isAuthenticated, (req, res) => {
+//manage pending reviews 
+app.get("/edit/:status",isAuthenticated, async (req, res) => {
   const reviewStatus = req.params.status;
 
   if (reviewStatus == 'pending') {
-    res.render("pending-reviews")
+
+    try{
+      const connection = await pool.getConnection();
+      await connection.query('USE slmobi');
+
+      const [pendingReviews] = await connection.query(`SELECT * FROM pending_reviews WHERE is_checked=0 LIMIT 0,15;`)
+      // console.log(pendingReviews)
+
+      connection.release();
+      res.render("pending-reviews", {pending_reviews: pendingReviews});
+
+    }catch(err){
+      console.log(err.message);
+      res.render('errors');
+    }
   } else if (reviewStatus == 'published') {
     //published reviews can be edited here.
   }
 })
+
+// app.
 
 app.listen(port, () => {
   console.log(`Server runnig on port${port}`);
