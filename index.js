@@ -23,9 +23,9 @@ config();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
-  session({ 
-    secret: process.env.SESSION_SECRET, 
-    resave: false, 
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 3600000 }, // Set the maximum age of the session to one hour
   }));
@@ -162,7 +162,7 @@ app.post('/submit/:id', async (req, res) => {
   const starScore = parseInt(req.body.starScore);
   const textReview = req.body.reviewText;
 
-  // console.log(uName);
+  console.log(new Date());
   // console.log(textReview);
   try {
     const connection = await pool.getConnection();
@@ -171,7 +171,7 @@ app.post('/submit/:id', async (req, res) => {
     const [modelObject] = await connection.query(`SELECT model FROM phones WHERE phone_id=${phoneId};`);
     const modelName = modelObject[0].model;
     console.log(modelName)
-      
+
     await connection.query(`
     INSERT INTO pending_reviews
     (post_by, post_date, score, review, phone_id, model)
@@ -231,7 +231,7 @@ app.get('/suggest-a-device', (req, res) => {
   res.render('suggest-a-device');
 });
 
-//passwor hashing
+//password hashing, don't remove this comment
 // bcrypt.genSalt(10, (err, salt) => {
 //   bcrypt.hash('type password here', salt, (err, hash) => {
 //     // Store 'hash' securely in your code or a database
@@ -246,14 +246,14 @@ async function authenticate(req, res, next) {
   try {
     const [queryResult] = await pool.query('SELECT password FROM users WHERE id=1;');
     const hashedPassword = queryResult[0].password;
-      const result = await bcrypt.compare(password, hashedPassword);
-      if (result) {
-        req.session.authenticated = true; // Set an "authenticated" property in the session
-        
-        next(); // Passwords match, continue to the account.ejs page
-      } else {
-        res.status(401).send('Authentication failed'); // Passwords don't match
-      }
+    const result = await bcrypt.compare(password, hashedPassword);
+    if (result) {
+      req.session.authenticated = true; // Set an "authenticated" property in the session
+
+      next(); // Passwords match, continue to the account.ejs page
+    } else {
+      res.status(401).send('Authentication failed'); // Passwords don't match
+    }
   } catch (error) {
     console.error('Error querying the database:', error);
     res.status(500).send('Authentication failed');
@@ -278,12 +278,12 @@ app.post("/master_acc", authenticate, (req, res) => {
 });
 
 //manage pending reviews 
-app.get("/edit/:status",isAuthenticated, async (req, res) => {
+app.get("/edit/:status", isAuthenticated, async (req, res) => {
   const reviewStatus = req.params.status;
 
   if (reviewStatus == 'pending') {
 
-    try{
+    try {
       const connection = await pool.getConnection();
       await connection.query('USE slmobi');
 
@@ -291,18 +291,62 @@ app.get("/edit/:status",isAuthenticated, async (req, res) => {
       // console.log(pendingReviews)
 
       connection.release();
-      res.render("pending-reviews", {pending_reviews: pendingReviews});
+      res.render("pending-reviews", { pending_reviews: pendingReviews });
 
-    }catch(err){
+    } catch (err) {
       console.log(err.message);
       res.render('errors');
     }
   } else if (reviewStatus == 'published') {
     //published reviews can be edited here.
   }
-})
+});
 
-// app.
+app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
+  const revId = req.params.r_id;
+  const action = req.params.action_to_take;
+
+  try {
+    const connection = await pool.getConnection();
+    await connection.query('USE slmobi');
+
+    if (action == 'publish') {
+      // get review from pending_reviews table
+      const [pendingReview] = await connection.query(`SELECT * FROM pending_reviews WHERE rev_id=${revId};`)
+      // console.log(pendingReview[0].post_date.toISOString().split('T')[0])
+
+      // save review to user_reviews table
+      if(pendingReview[0].is_posted == 0){
+        await connection.query(`
+        INSERT INTO user_reviews
+        (r_id, post_by, post_date, score, review, phone_id, model)
+        VALUES(${pendingReview[0].rev_id},
+                '${pendingReview[0].post_by}', 
+                '${pendingReview[0].post_date.toISOString().split('T')[0]}', 
+                ${pendingReview[0].score}, 
+                '${pendingReview[0].review}',
+                ${pendingReview[0].phone_id},
+                '${pendingReview[0].model}');
+                `);
+        // delete review from pending_reviews after saving to user_reviews
+        await connection.query(`DELETE FROM pending_reviews WHERE rev_id=${revId};`);
+        res.send('Posted ✔️ ✔️ ');
+      }
+    } else if (action == 'reject') {
+      
+      await connection.query(`UPDATE pending_reviews SET is_checked = 1 WHERE rev_id=${revId};`);
+      res.send('Rejected! ❌❌');
+    }
+
+    connection.release();
+    // res.render("pending-reviews", {pending_reviews: pendingReviews});
+
+  } catch (err) {
+    console.log(err.message);
+    res.render('errors');
+  }
+
+});
 
 app.listen(port, () => {
   console.log(`Server runnig on port${port}`);

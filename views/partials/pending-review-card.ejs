@@ -1,12 +1,3 @@
-<script>
-    // function publishFunction() {
-    //     alert("Review Posted!");
-    //     // Add your JavaScript code here.
-    // }
-    
-</script>
-
-
 <div class="card mt-2">
     <div class="card-body pb-0">
         <p>review id : <%=locals.reviewId%>
@@ -22,8 +13,8 @@
         <p>phone : <%=locals.phoneModel%>
         </p>
 
-        <a href="#" id="pdbtn" class="btn btn-outline-success active mx-2" onclick='' role="button" data-bs-toggle="button">Publish</a>
-        <a href="#" class="btn btn-primary mx-2" role="button">Reject</a>
+        <a href="/action/publish/<%=locals.reviewId%>" class="btn btn-primary mx-2" role="button">Publish</a>
+        <a href="/action/reject/<%=locals.reviewId%>" class="btn btn-primary mx-2" role="button">Reject</a>
         <a href="#" class="btn btn-primary mx-2" role="button">Edit</a>
         <a href="#" class="btn btn-primary mx-2" role="button">Delete</a>
 
