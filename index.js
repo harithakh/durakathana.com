@@ -162,7 +162,6 @@ app.post('/submit/:id', async (req, res) => {
   const starScore = parseInt(req.body.starScore);
   const textReview = req.body.reviewText;
 
-  console.log(new Date());
   // console.log(textReview);
   try {
     const connection = await pool.getConnection();
@@ -170,7 +169,7 @@ app.post('/submit/:id', async (req, res) => {
 
     const [modelObject] = await connection.query(`SELECT model FROM phones WHERE phone_id=${phoneId};`);
     const modelName = modelObject[0].model;
-    console.log(modelName)
+    // console.log(modelName)
 
     await connection.query(`
     INSERT INTO pending_reviews
@@ -315,25 +314,43 @@ app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
       const [pendingReview] = await connection.query(`SELECT * FROM pending_reviews WHERE rev_id=${revId};`)
       // console.log(pendingReview[0].post_date.toISOString().split('T')[0])
 
+      const score = pendingReview[0].score;
+      const phoneId = pendingReview[0].phone_id;
+
       // save review to user_reviews table
-      if(pendingReview[0].is_posted == 0){
+      if (pendingReview[0].is_posted == 0) {
         await connection.query(`
         INSERT INTO user_reviews
         (r_id, post_by, post_date, score, review, phone_id, model)
         VALUES(${pendingReview[0].rev_id},
                 '${pendingReview[0].post_by}', 
                 '${pendingReview[0].post_date.toISOString().split('T')[0]}', 
-                ${pendingReview[0].score}, 
+                ${score}, 
                 '${pendingReview[0].review}',
-                ${pendingReview[0].phone_id},
+                ${phoneId},
                 '${pendingReview[0].model}');
                 `);
+
+        // update score and number_of_reviews columns in phones table
+        const [phoneStat] = await connection.query(`SELECT score,number_of_reviews FROM phones
+                                                    WHERE phone_id=${phoneId}`);
+
+        let meanScore = phoneStat[0].score;
+        let numberOfReviews = phoneStat[0].number_of_reviews;
+        // calculate new mean score
+        meanScore = ((meanScore * numberOfReviews) + score) / (numberOfReviews + 1);
+        //update columns on phones table
+        await connection.query(`UPDATE phones SET 
+                                score=${meanScore}, 
+                                number_of_reviews=${numberOfReviews + 1}
+                                WHERE phone_id=${phoneId}`);
+
         // delete review from pending_reviews after saving to user_reviews
         await connection.query(`DELETE FROM pending_reviews WHERE rev_id=${revId};`);
         res.send('Posted ✔️ ✔️ ');
       }
     } else if (action == 'reject') {
-      
+
       await connection.query(`UPDATE pending_reviews SET is_checked = 1 WHERE rev_id=${revId};`);
       res.send('Rejected! ❌❌');
     }
