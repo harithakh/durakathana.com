@@ -9,7 +9,7 @@ import pool from './public/js/dbconnection.js';
 import session from 'express-session';
 import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
-import { Console } from "console";
+import multer from 'multer';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -273,10 +273,24 @@ app.get("/log-me", (req, res) => {
 });
 
 app.post("/master_acc", authenticate, (req, res) => {
+  res.redirect("/profile");
+});
+
+app.get("/profile",isAuthenticated, (req,res) => {
   res.render("account");
 });
 
-//manage pending reviews 
+// Set up Multer for file uploads
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'public/img');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+
+//manage pending and published reviews 
 app.get("/edit/:status", isAuthenticated, async (req, res) => {
   const reviewStatus = req.params.status;
 
@@ -298,8 +312,89 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
     }
   } else if (reviewStatus == 'published') {
     //published reviews can be edited here.
+  } else if (reviewStatus == 'add_phone') {
+    //add phone page
+    res.render("add-phone");
   }
 });
+
+// Set up Multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, __dirname + '/public/img');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+// 1st step uploading a new phone. model, brand and image.
+app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res) => {
+  const phoneModel = req.body.phone_model;
+  const phoneBrand = req.body.phone_brand;
+  
+  if (req.file) {
+    const imageName = req.file.filename;
+    try {
+      const connection = await pool.getConnection();
+
+      await connection.query(`
+      INSERT INTO phones 
+      (model, brand, img)
+      VALUES('${phoneModel}', '${phoneBrand}', '${imageName}');`);
+
+      const [phoneIdModel] = await connection.query(`
+      SELECT phone_id, model FROM phones
+      ORDER BY phone_id DESC
+      LIMIT 1;`);
+
+      connection.release();
+      res.render("add-phone-specs", {phone_id_and_model: phoneIdModel[0]});
+    }catch (err) {
+      console.log(err.message);
+      res.render('errors');
+    }
+  } else {
+    throw 'File upload not successful!';
+  }
+});
+
+// 2nd step of adding a new phone
+app.post('/upload-phone-step-two/:id/:model',async (req, res)=>{
+  const phoneId = parseInt(req.params.id);
+  const phoneModel = req.params.model;
+
+  // console.log(req.body)
+  try {
+    const connection = await pool.getConnection();
+
+    await connection.query(`
+    INSERT INTO specs 
+    (phone_id, model, release_date, dimensions, weight, display_size, os, chipset, internal_memory, main_cam, selfie_cam, battery)
+    VALUES('${phoneId}', 
+          '${phoneModel}', 
+          '${req.body.release_date}',
+          '${req.body.phone_dimensions}',
+          '${req.body.phone_weight}',
+          '${req.body.phone_display_size}',
+          '${req.body.phone_os}',
+          '${req.body.phone_chipset}',
+          '${req.body.phone_internal_memory}',
+          '${req.body.phone_main_cam}',
+          '${req.body.phone_selfie_cam}',
+          '${req.body.phone_battery}');`);
+
+    connection.release();
+    res.send('<div><h3>Phone added!</h3><a href="/profile">Goto Profile</a></div>');
+  }catch (err) {
+    console.log(err.message);
+    res.render('errors');
+  }
+
+});
+
 
 app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
   const revId = req.params.r_id;

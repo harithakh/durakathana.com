@@ -16,32 +16,29 @@
     
         <script src="/js/scripts.js"></script>
         
-        
       </head>
 <body>
     <!-- Header -->
     <%- include('partials/header') %>
-
     <hr>
+
     <section>
-      <div class="container">
-
-        <% pending_reviews.forEach((review) => { %>
-          <%- include('partials/pending-review-card',
-          {reviewId: review.rev_id,
-          postBy: review.post_by,
-          postDate: review.post_date,
-          score: review.score,
-          userReview: review.review,
-          phoneModel: review.model
-          }); %>
+      <div class="container" style="height: 400px;">
+        <form action="/upload-phone-step-one" method="POST" name="addPhoneForm" enctype="multipart/form-data">
+          <label for="phoneModel" class="form-label">Phone Model</label>
+          <input type="text" class="form-control" name="phone_model" id="phoneModel" placeholder="(100) ex: Google Pixel 7a" required>
         
-        <% }); %>
+          <label for="phoneBrand" class="form-label" >Brand</label>
+          <input type="text" class="form-control" name="phone_brand" id="phoneBrand" placeholder="(50) ex: Google" required>
+        
+          <label for="phoneImage" class="form-label">Select an Image</label>
+          <input type="file" accept="image/*" class="form-control" name="phone_image" id="phoneImage" required>
 
+          <button type="submit" class="btn btn-primary mt-2">Next</button>
+        </form>
       </div>
     </section>
-
-    <div style="height: 400px;"></div>
+ 
     <!-- Footer -->
     <%-include('partials/footer') %>
 
