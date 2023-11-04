@@ -178,7 +178,7 @@ app.post('/submit/:id', async (req, res) => {
     `);
 
     connection.release();
-    res.render('feedback');
+    res.redirect('/review_feedback');
 
   } catch (err) {
     // res.status(500).json({ error: err.message });
@@ -187,6 +187,11 @@ app.post('/submit/:id', async (req, res) => {
   }
 
 });
+
+//show feedback message
+app.get('/review_feedback', (req, res)=>{
+  res.render('feedback');
+})
 
 //search
 app.get("/search", async (req, res) => {
@@ -395,7 +400,7 @@ app.post('/upload-phone-step-two/:id/:model',async (req, res)=>{
 
 });
 
-
+//master page actions
 app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
   const revId = req.params.r_id;
   const action = req.params.action_to_take;
@@ -445,9 +450,11 @@ app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
         res.send('Posted ✔️ ✔️ ');
       }
     } else if (action == 'reject') {
-
       await connection.query(`UPDATE pending_reviews SET is_checked = 1 WHERE rev_id=${revId};`);
       res.send('Rejected! ❌❌');
+    } else if (action == 'delete'){
+      await connection.query(`DELETE FROM pending_reviews WHERE rev_id=${revId};`);
+      res.send('Deleted! ⛔⛔');
     }
 
     connection.release();

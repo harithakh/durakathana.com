@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
       alert("Review එක type කරන්න ");
       return;
     }
+    //hide the review form
+    document.getElementById("writeReviewCollapse").style.display = "none";
   }
 
   // Attach the function to the button's click event

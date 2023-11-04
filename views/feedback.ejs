@@ -22,10 +22,8 @@
 
     <!-- search section -->
     <section>
-      <div style="background-color: rgb(187, 193, 245)">
-        <div
-          class="spacer bg-primary"
-          style="height: 3px; "></div>
+      <div style="background-color: #0C356A">
+         
 
         <div class="container d-flex justify-content-center pb-1" >
           <div class="row my-2 gx-0">
@@ -36,10 +34,22 @@
     </section>
     
     <section>
-        <div class="container d-flex justify-content-center mt-5">
-            <p>Thank You So much for the review!</p>
+        <div class="container text-center mt-5" style="height: 400px;">
+            <H4>Thanks so much for sharing your review with us! ❤️ </H4>
+            <h5> SLmobiles team will review your submission carefully and publish it soon.</h5>
+
+            <button class="btn my-2" onclick="goBack()" style="background-color: #0174BE; color: white;">Go Back</button>
+            <script>
+              function goBack() {
+                window.history.back(); // Go back to the previous page
+              }
+            </script>
         </div>
     </section>
+
+    <!-- Footer -->
+    <%-include('partials/footer') %>
+
   </main>
 
     <script

@@ -78,10 +78,12 @@
               </svg>
               Write your review</button>
           </div>
+          
           <div class="collapse" id="writeReviewCollapse">
             <p class="fw-semibold">
               <%=phone_info.model %> ගැන ඔබගේ review එක මෙතනින් අතුළත් කරන්න.<br>
             </p>
+            
             <!--device review form -->
             <form id="reviewForm" action="/submit/<%=phone_info.phone_id%>" method="POST" name="submitReviewForm">
               <div class="mb-3">
@@ -91,7 +93,7 @@
                   class="form-control" 
                   id="userNameInput" 
                   name="userName"
-                  placeholder="" required>
+                  autocomplete="off" required>
                   <div id="validationServerUsernameFeedback" class="invalid-feedback">
                     Please enter username.
                   </div>
@@ -101,23 +103,23 @@
                 <label for="" class="form-label">Phone එකට දෙන තරු ගාන :</label>
                 <br>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio1" value="1" onclick="displayStars('1');" required>
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio1" value="1" onclick="displayStars('1');" autocomplete="off" required>
                     <label class="form-check-label" for="inlineRadio1">1</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio2" value="2" onclick="displayStars('2');">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio2" value="2" onclick="displayStars('2');" autocomplete="off">
                     <label class="form-check-label" for="inlineRadio2">2</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio3" value="3" onclick="displayStars('3');">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio3" value="3" onclick="displayStars('3');"autocomplete="off">
                     <label class="form-check-label" for="inlineRadio3">3</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio4" value="4" onclick="displayStars('4');">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio4" value="4" onclick="displayStars('4');"autocomplete="off">
                     <label class="form-check-label" for="inlineRadio4">4</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio5" value="5" onclick="displayStars('5');">
+                    <input class="form-check-input" type="radio" name="starScore" id="inlineRadio5" value="5" onclick="displayStars('5');"autocomplete="off">
                     <label class="form-check-label" for="inlineRadio5">5</label>
                   </div>
                   <div class="container ps-3">
@@ -131,12 +133,14 @@
                   class="form-control" 
                   id="reviewTextInput" 
                   name="reviewText"
-                  rows="3" required></textarea>
+                  rows="3" 
+                  autocomplete="off" required></textarea>
               </div>
               <div class="col-auto">
-                <button id="reviewSubmitButton" type="submit"  class="btn btn-primary mb-3">Submit</button>
+                <button id="reviewSubmitButton" 
+                type="submit" 
+                class="btn mb-3" style="background-color: #0174BE; color: white;">Submit</button>
               </div>
-            
             </form>
           </div>
         </div>
