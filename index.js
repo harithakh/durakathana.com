@@ -222,8 +222,10 @@ app.get('/brand/:brand', async (req, res) => {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
-    const [brandResults] = await connection.query(`SELECT * FROM phones WHERE brand='${PhoneBrand}';`)
+    const [brandResults] = await connection.
+    query(`SELECT * FROM phones WHERE brand='${PhoneBrand}' ORDER BY release_date DESC;`)
     // console.log(brandResults[0])
+    connection.release(); 
     res.render('search', { search_results: brandResults });
   } catch (err) {
     console.log(err.message);
@@ -231,8 +233,23 @@ app.get('/brand/:brand', async (req, res) => {
   }
 });
 
-app.get('/suggest-a-device', (req, res) => {
-  res.render('suggest-a-device');
+//phone suggest page
+app.get('/suggest_device', (req, res) => {
+ res.render('suggest-a-device');
+});
+
+app.get('/sumbit_suggested_device', async (req,res) => {
+  const userInputModel = req.query.modelSuggestion;
+
+  //replace symbols other than lettes, numbers and dots. 
+  const regex = /[^a-zA-Z0-9. ]/g;
+  const modelSanitizedString = userInputModel.replace(regex, '');
+
+  const sql = 'INSERT INTO device_suggestions (suggested_model) VALUES (?)';
+  await pool.query(sql, [modelSanitizedString])
+  
+  // Use a status code of 204 to indicate success with no content
+  res.status(204).end();
 });
 
 //password hashing, don't remove this comment
@@ -339,6 +356,7 @@ const upload = multer({ storage });
 app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res) => {
   const phoneModel = req.body.phone_model;
   const phoneBrand = req.body.phone_brand;
+  const releaseDate =req.body.release_date;
   
   if (req.file) {
     const imageName = req.file.filename;
@@ -347,8 +365,8 @@ app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res
 
       await connection.query(`
       INSERT INTO phones 
-      (model, brand, img)
-      VALUES('${phoneModel}', '${phoneBrand}', '${imageName}');`);
+      (model, brand, img, release_date)
+      VALUES('${phoneModel}', '${phoneBrand}', '${imageName}', '${releaseDate}');`);
 
       const [phoneIdModel] = await connection.query(`
       SELECT phone_id, model FROM phones
