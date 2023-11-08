@@ -28,9 +28,45 @@
           <label for="phoneModel" class="form-label">Phone Model</label>
           <input type="text" class="form-control" name="phone_model" id="phoneModel" placeholder="(100) ex: Google Pixel 7a" required>
         
-          <label for="phoneBrand" class="form-label">Brand</label>
-          <input type="text" class="form-control" name="phone_brand" id="phoneBrand" placeholder="(50) ex: Google" required>
-        
+          <label for="phoneBrand">Select brand</label>
+          <div class="form-floating">
+            <select class="form-select" id="phoneBrand" name="phoneBrand" aria-label="Floating label select example">
+              <option selected>Select brand</option>
+              <!-- if a brand changes here, change it in header too -->
+              <option value="Apple">Apple</option>
+              <option value="Samsung">Samsung</option>
+              <option value="Xiaomi">Xiaomi</option>
+              <option value="Sony">Sony</option>
+              <option value="Google">Google</option>
+              <option value="Huawei">Huawei</option>
+              <option value="Oppo">Oppo</option>
+              <option value="Vivo">Vivo</option>
+              <option value="Nokia">Nokia</option>
+              <option value="OnePlus">OnePlus</option>
+              <option value="Realme">Realme</option>
+              <option value="Tecno">Tecno</option>
+              <option value="LG">LG</option>
+              <option value="Honor">Honor</option>
+              <option value="ZTE">ZTE</option>
+              <option value="Sharp">Sharp</option>
+              <option value="Infinix">Infinix</option>
+              <option value="UMIDIGI">UMIDIGI</option>
+              <option value="Moto">Moto</option>
+              <option value="Digno">Digno</option>
+              <option value="TLC">TLC</option>
+              <option value="Itel">Itel</option>
+              <option value="Greentel">Greentel</option>
+              <option value="Nothing Phone">Nothing Phone</option>
+              <option value="E-tel">E-tel</option>
+              <option value="CAT">CAT</option>
+              <option value="Micromax">Micromax</option>
+              <option value="Asus">Asus</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="Fujitsu">Fujitsu</option>
+            </select>
+            <!-- <label for="floatingSelect">Works with selects</label> -->
+          </div>
+          
           <label for="releaseDate" class="form-label">Date Released</label>
           <input type="date" class="form-control" name="release_date" id="releaseDate">
 

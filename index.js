@@ -355,7 +355,7 @@ const upload = multer({ storage });
 // 1st step uploading a new phone. model, brand and image.
 app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res) => {
   const phoneModel = req.body.phone_model;
-  const phoneBrand = req.body.phone_brand;
+  const phoneBrand = req.body.phoneBrand;
   const releaseDate =req.body.release_date;
   
   if (req.file) {

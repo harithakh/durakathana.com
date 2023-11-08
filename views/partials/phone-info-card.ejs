@@ -1,14 +1,32 @@
 <div class="col">
-  <div class="card">
-
+  <div class="card px-0 pb-0">
     <a class="phone-card-link" href="/reviews/<%=locals.id %>/<%=locals.model %>/<%=locals.sort_reviews %>/page/1">
-      <img src="/<%=locals.img %>" class="card-img-top" alt=""/>
-      <div class="card-body">
-        <h5 class="card-title"><%= locals.model %></h5>
+      <img src="/<%=locals.img %>" class="card-img-top" alt="phone image"/>
+      
+      <div class="card-body px-1 pb-0">
+        <h5 class="card-title"  style="height: 30px;"><%= locals.model %></h5>
       </div>
     </a>
-    <div class="card-footer">
-      <small class="text-body-secondary">⭐ <%=locals.score%> (<%=locals.no_of_reviews  %>)</small>
+    <div class="card-footer p-1 text-center" style="background-color: #FFF0CE;">
+      <p class="card-text mx-0" >
+        ⭐ <b style="font-size: 22px;"><%=locals.score%></b> 
+        <% if(locals.no_of_reviews == 1){ %>
+          <small class="text-body-secondary" style="font-size: 11pt;">(<%=locals.no_of_reviews %> review) </small> 
+        <% } else { %>
+          <small class="text-body-secondary" style="font-size: 11pt;">(<%=locals.no_of_reviews  %> reviews) </small>   
+        <% } %>
+      </p>
     </div>
   </div>
 </div>
+
+<!-- <div class="card-img-overlay">
+  <p class="rounded d-flex align-items-center justify-content-center "
+  style="color: #FFF0CE;
+        background-color: #0C356A; 
+        font-size: large;
+        height: 35px;
+        width: 35px;">
+    <strong>3</strong>
+  </p>
+</div> -->
