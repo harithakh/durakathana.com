@@ -226,7 +226,8 @@ app.get('/brand/:brand', async (req, res) => {
     query(`SELECT * FROM phones WHERE brand='${PhoneBrand}' ORDER BY release_date DESC;`)
     // console.log(brandResults[0])
     connection.release(); 
-    res.render('search', { search_results: brandResults });
+
+    res.render("search", { search_results: brandResults });
   } catch (err) {
     console.log(err.message);
     res.render('errors');

@@ -1,34 +1,36 @@
 <div class="col">
   <div class="card">
-    <div class="card-header">
+    <div class="card-header" style="background-color: #FFF0CE;">
       <!-- model must be clickable link -->      
-      <h5 class="card-title"><%=locals.model %></h5>
+      <h5 class="card-title" ><%=locals.model %></h5>
     </div>
     <div class="card-body">
       <p>
-        by <%=locals.userName %>| 
-        <% const formattedDate = new Date(locals.date).toISOString().split('T')[0]; %>
-        <%=formattedDate%> 
         <% switch (locals.score) {
           case 1: %>
-            <p class="col col-sm-7">⭐</p>
+            <span class="col col-sm-7">⭐</span>
             <% break; 
           case 2: %>
-            <p class="col col-sm-7">⭐⭐</p>
+            <span class="col col-sm-7">⭐⭐</span>
             <% break;
           case 3: %>
-            <p class="col col-sm-7">⭐⭐⭐</p>
+            <span class="col col-sm-7">⭐⭐⭐</span>
             <% break; 
           case 4: %>
-            <p class="col col-sm-7">⭐⭐⭐⭐</p>
+            <span class="col col-sm-7">⭐⭐⭐⭐</span>
             <% break; 
           case 5: %>
-            <p class="col col-sm-7">⭐⭐⭐⭐⭐</p>
+            <span class="col col-sm-7">⭐⭐⭐⭐⭐</span>
             <% break; %>
-      <% } %>
-        <%=locals.review %>
+        <% } %> <br>
+
+        <span style="font-size: 18px;"> <%=locals.review.slice(0,100) %>... </span>
         <a href="/reviews/<%=locals.phoneId %>/<%=locals.model %>/<%=locals.sort_reviews %>/page/1" class="card-link">read more ></a>
         
+        <br><br>
+        <b>by <%=locals.userName %></b>  | 
+        <% const formattedDate = new Date(locals.date).toISOString().split('T')[0]; %>
+        <small> <%=formattedDate%> </small>
       </p>
     </div>
   </div>
