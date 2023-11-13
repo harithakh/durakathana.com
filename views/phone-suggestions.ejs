@@ -22,11 +22,12 @@
     <%- include('partials/header') %>
     <hr>
     <section>
-        <div class="container" style="height: 400px;">
-            <a class="btn btn-primary mx-2" href="/edit/pending" role="button">Pending reviews</a>
-            <a class="btn btn-primary mx-2 disabled" href="/edit/published" role="button" >published reviews</a>
-            <a class="btn btn-primary mx-2" href="/edit/add_phone" role="button">Add phone</a>
-            <a class="btn btn-primary mx-2" href="/edit/phone_suggestions" role="button">Phone suggestions</a>
+        <div class="container">
+            <% let n=1 ;%>
+            <% phone_suggestions.forEach((suggestion) => {%>
+                <div><p><%=n %> : <%=suggestion.suggested_model %></p></div>
+                <% n++; %>
+            <% });%>
         </div>
     </section>
 

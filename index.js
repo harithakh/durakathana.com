@@ -338,6 +338,23 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
   } else if (reviewStatus == 'add_phone') {
     //add phone page
     res.render("add-phone");
+  } else if (reviewStatus == 'phone_suggestions'){
+
+    try {
+      const connection = await pool.getConnection();
+      await connection.query('USE slmobi');
+
+      const [phoneSuggestions] = await connection.query(`SELECT * FROM device_suggestions`)
+      console.log(phoneSuggestions)
+
+      connection.release();
+      res.render("phone-suggestions", { phone_suggestions: phoneSuggestions });
+
+    } catch (err) {
+      console.log(err.message);
+      res.render('errors');
+    }
+    
   }
 });
 
@@ -484,6 +501,12 @@ app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
     res.render('errors');
   }
 
+});
+
+// terms and conditions 
+app.get("/q/:term", (req, res) => {
+  const term = req.params.term;
+  res.render('legal', {page_content: term});
 });
 
 app.listen(port, () => {
