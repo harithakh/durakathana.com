@@ -30,7 +30,6 @@ app.use(
     cookie: { maxAge: 3600000 }, // Set the maximum age of the session to one hour
   }));
 
-
 //a middleware for Express which is used to limit repeated requests to public APIs 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -92,7 +91,6 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
     const [specs] = await connection.query(`SELECT * FROM specs WHERE phone_id=${phoneId}`);
 
     if (sortBy == 'latest') {
-
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date DESC LIMIT ${startRow}, ${endRow};`);
       // console.log(userReviews.length)
@@ -105,10 +103,10 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "Latest first",
         page_number: pageNumber
       });
+    
     } else if (sortBy == 'oldest') {
-
-      const [userReviews] = await connection.query(
-        `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date ASC LIMIT ${startRow}, ${endRow};`);
+      const [userReviews] = await connection.
+        query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date ASC LIMIT ${startRow}, ${endRow};`);
       connection.release();
 
       res.render("reviews", {
@@ -118,8 +116,8 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "Oldest first",
         page_number: pageNumber
       });
+    
     } else if (sortBy == 'high_to_low') {
-
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score DESC LIMIT ${startRow}, ${endRow};`);
       connection.release();
@@ -131,8 +129,8 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "High to low",
         page_number: pageNumber
       });
+    
     } else if (sortBy == 'low_to_high') {
-
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score ASC LIMIT ${startRow}, ${endRow};`);
       connection.release();
@@ -145,7 +143,6 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         page_number: pageNumber
       });
     }
-
 
   } catch (err) {
     // res.status(500).json({ error: 'Internal Server Error' });
@@ -189,7 +186,7 @@ app.post('/submit/:id', async (req, res) => {
 });
 
 //show feedback message
-app.get('/review_feedback', (req, res)=>{
+app.get('/review_feedback', (req, res) => {
   res.render('feedback');
 })
 
@@ -215,19 +212,23 @@ app.get("/search", async (req, res) => {
 });
 
 //get brands
-app.get('/brand/:brand', async (req, res) => {
-  const PhoneBrand = req.params.brand;
+app.get('/brand/:brand/page/:pNumber', async (req, res) => {
+  const phoneBrand = req.params.brand;
+  const pageNumber = parseInt(req.params.pNumber);
   // console.log(PhoneBrand);
+
+  let startRow = (pageNumber - 1) * 20;
+  let endRow = startRow + 20;
   try {
     const connection = await pool.getConnection();
     await connection.query('USE slmobi');
 
     const [brandResults] = await connection.
-    query(`SELECT * FROM phones WHERE brand='${PhoneBrand}' ORDER BY release_date DESC;`)
-    // console.log(brandResults[0])
-    connection.release(); 
+      query(`SELECT * FROM phones WHERE brand='${phoneBrand}' ORDER BY release_date DESC LIMIT ${startRow}, ${endRow};`)
+    // console.log(brandResults.length);
+    connection.release();
 
-    res.render("search", { search_results: brandResults });
+    res.render("search", { search_results: brandResults, phone_brand: phoneBrand, page_number: pageNumber });
   } catch (err) {
     console.log(err.message);
     res.render('errors');
@@ -236,10 +237,10 @@ app.get('/brand/:brand', async (req, res) => {
 
 //phone suggest page
 app.get('/suggest_device', (req, res) => {
- res.render('suggest-a-device');
+  res.render('suggest-a-device');
 });
 
-app.get('/sumbit_suggested_device', async (req,res) => {
+app.get('/sumbit_suggested_device', async (req, res) => {
   const userInputModel = req.query.modelSuggestion;
 
   //replace symbols other than lettes, numbers and dots. 
@@ -248,7 +249,7 @@ app.get('/sumbit_suggested_device', async (req,res) => {
 
   const sql = 'INSERT INTO device_suggestions (suggested_model) VALUES (?)';
   await pool.query(sql, [modelSanitizedString])
-  
+
   // Use a status code of 204 to indicate success with no content
   res.status(204).end();
 });
@@ -299,7 +300,7 @@ app.post("/master_acc", authenticate, (req, res) => {
   res.redirect("/profile");
 });
 
-app.get("/profile",isAuthenticated, (req,res) => {
+app.get("/profile", isAuthenticated, (req, res) => {
   res.render("account");
 });
 
@@ -338,7 +339,7 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
   } else if (reviewStatus == 'add_phone') {
     //add phone page
     res.render("add-phone");
-  } else if (reviewStatus == 'phone_suggestions'){
+  } else if (reviewStatus == 'phone_suggestions') {
 
     try {
       const connection = await pool.getConnection();
@@ -354,7 +355,7 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
       console.log(err.message);
       res.render('errors');
     }
-    
+
   }
 });
 
@@ -374,8 +375,8 @@ const upload = multer({ storage });
 app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res) => {
   const phoneModel = req.body.phone_model;
   const phoneBrand = req.body.phoneBrand;
-  const releaseDate =req.body.release_date;
-  
+  const releaseDate = req.body.release_date;
+
   if (req.file) {
     const imageName = req.file.filename;
     try {
@@ -392,8 +393,8 @@ app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res
       LIMIT 1;`);
 
       connection.release();
-      res.render("add-phone-specs", {phone_id_and_model: phoneIdModel[0]});
-    }catch (err) {
+      res.render("add-phone-specs", { phone_id_and_model: phoneIdModel[0] });
+    } catch (err) {
       console.log(err.message);
       res.render('errors');
     }
@@ -403,7 +404,7 @@ app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res
 });
 
 // 2nd step of adding a new phone
-app.post('/upload-phone-step-two/:id/:model',async (req, res)=>{
+app.post('/upload-phone-step-two/:id/:model', async (req, res) => {
   const phoneId = parseInt(req.params.id);
   const phoneModel = req.params.model;
 
@@ -429,7 +430,7 @@ app.post('/upload-phone-step-two/:id/:model',async (req, res)=>{
 
     connection.release();
     res.send('<div><h3>Phone added!</h3><a href="/profile">Goto Profile</a></div>');
-  }catch (err) {
+  } catch (err) {
     console.log(err.message);
     res.render('errors');
   }
@@ -488,7 +489,7 @@ app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
     } else if (action == 'reject') {
       await connection.query(`UPDATE pending_reviews SET is_checked = 1 WHERE rev_id=${revId};`);
       res.send('Rejected! ❌❌');
-    } else if (action == 'delete'){
+    } else if (action == 'delete') {
       await connection.query(`DELETE FROM pending_reviews WHERE rev_id=${revId};`);
       res.send('Deleted! ⛔⛔');
     }
@@ -506,7 +507,7 @@ app.get("/action/:action_to_take/:r_id", isAuthenticated, async (req, res) => {
 // terms and conditions 
 app.get("/q/:term", (req, res) => {
   const term = req.params.term;
-  res.render('legal', {page_content: term});
+  res.render('legal', { page_content: term });
 });
 
 app.listen(port, () => {

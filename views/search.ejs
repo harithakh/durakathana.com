@@ -51,6 +51,40 @@
             <% }); %>
           </div>
         </div>
+
+        <div class="text-center mt-2">
+          <p >Page - <%= page_number %></p>
+        </div>
+
+        <div class="row">
+          <div class="col text-start ms-5">
+            <% if(page_number<2){ %>
+              <a class="btn btn-outline-primary disabled"
+              role="button" > Previous </a>
+            <% }else {%>
+              <a class="btn btn-outline-primary " 
+              href="/brand/<%= phone_brand %>/page/<%= page_number-1 %>" 
+              role="button"
+              >Previous</a>
+            <% } %>
+          </div>
+          <div class="col text-end me-5">
+            <% if(search_results.length<20) {%>
+              <!-- if the number of phones < 20 this link disabled -->
+              <a class="btn btn-outline-primary disabled"
+              role="button" > Next </a>
+            <% } else {%>
+              <a 
+              class="btn btn-outline-primary" 
+              href="/brand/<%= phone_brand %>/page/<%= page_number+1 %>" 
+              role="button"
+                >Next</a
+              >
+
+            <% } %>
+          </div>
+        </div>
+
       </section>
 
     </main>
