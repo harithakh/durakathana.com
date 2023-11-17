@@ -228,7 +228,7 @@ app.get('/brand/:brand/page/:pNumber', async (req, res) => {
     // console.log(brandResults.length);
     connection.release();
 
-    res.render("search", { search_results: brandResults, phone_brand: phoneBrand, page_number: pageNumber });
+    res.render("brand-results", { search_results: brandResults, phone_brand: phoneBrand, page_number: pageNumber });
   } catch (err) {
     console.log(err.message);
     res.render('errors');

@@ -38,53 +38,26 @@
           Search Results
         </h2>
         <div class="container-md">
-          <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
-            <!--loop for show top ranking phone cardViews-->
-            <% search_results.forEach((phone) => { %> 
-              <%-include('partials/phone-info-card', 
-              { id: phone.phone_id,
-                model : phone.model,
-                img : 'img/'+phone.img,
-                score: phone.score, 
-                no_of_reviews: phone.number_of_reviews,
-                sort_reviews: 'latest'}) %> 
-            <% }); %>
-          </div>
+          <% if(search_results.length == 0) {%>
+            <div class="container text-center" style="height: 300px;">
+              <h4 class="mt-5">No Search Results 🫤</h4>
+            </div>
+          <% } else {%>
+            <div class="row row-cols-2 row-cols-sm-4 g-2 px-lg-5 mx-lg-5">
+              <!--loop for show top ranking phone cardViews-->
+              <% search_results.forEach((phone) => { %> 
+                <%-include('partials/phone-info-card', 
+                { id: phone.phone_id,
+                  model : phone.model,
+                  img : 'img/'+phone.img,
+                  score: phone.score, 
+                  no_of_reviews: phone.number_of_reviews,
+                  sort_reviews: 'latest'}) %> 
+              <% }); %>
+            </div>
+          <% } %>
+          
         </div>
-
-        <div class="text-center mt-2">
-          <p >Page - <%= page_number %></p>
-        </div>
-
-        <div class="row">
-          <div class="col text-start ms-5">
-            <% if(page_number<2){ %>
-              <a class="btn btn-outline-primary disabled"
-              role="button" > Previous </a>
-            <% }else {%>
-              <a class="btn btn-outline-primary " 
-              href="/brand/<%= phone_brand %>/page/<%= page_number-1 %>" 
-              role="button"
-              >Previous</a>
-            <% } %>
-          </div>
-          <div class="col text-end me-5">
-            <% if(search_results.length<21) {%>
-              <!-- if the number of phones < 20 this link disabled -->
-              <a class="btn btn-outline-primary disabled"
-              role="button" > Next </a>
-            <% } else {%>
-              <a 
-              class="btn btn-outline-primary" 
-              href="/brand/<%= phone_brand %>/page/<%= page_number+1 %>" 
-              role="button"
-                >Next</a
-              >
-
-            <% } %>
-          </div>
-        </div>
-
       </section>
 
     </main>
