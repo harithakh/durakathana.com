@@ -16,22 +16,34 @@
     
         <script src="/js/scripts.js"></script>
         
+        
       </head>
 <body>
     <!-- Header -->
-    <%- include('partials/header') %>
+    <%- include('../partials/header') %>
+
     <hr>
     <section>
-        <div class="container" style="height: 400px;">
-            <a class="btn btn-primary mx-2" href="/edit/pending" role="button">Pending reviews</a>
-            <a class="btn btn-primary mx-2 disabled" href="/edit/published" role="button" >published reviews</a>
-            <a class="btn btn-primary mx-2" href="/edit/add_phone" role="button">Add phone</a>
-            <a class="btn btn-primary mx-2" href="/edit/phone_suggestions" role="button">Phone suggestions</a>
-        </div>
+      <div class="container">
+
+        <% pending_reviews.forEach((review) => { %>
+          <%- include('../partials/pending-review-card',
+          {reviewId: review.rev_id,
+          postBy: review.post_by,
+          postDate: review.post_date,
+          score: review.score,
+          userReview: review.review,
+          phoneModel: review.model
+          }); %>
+        
+        <% }); %>
+
+      </div>
     </section>
 
+    <div style="height: 400px;"></div>
     <!-- Footer -->
-    <%-include('partials/footer') %>
+    <%-include('../partials/footer') %>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

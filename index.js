@@ -6,6 +6,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { rateLimit } from 'express-rate-limit'
 import pool from './public/js/dbconnection.js';
+import scraper from './public/js/scraper.js';
 import session from 'express-session';
 import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -103,7 +104,7 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "Latest first",
         page_number: pageNumber
       });
-    
+
     } else if (sortBy == 'oldest') {
       const [userReviews] = await connection.
         query(`SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY post_date ASC LIMIT ${startRow}, ${endRow};`);
@@ -116,7 +117,7 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "Oldest first",
         page_number: pageNumber
       });
-    
+
     } else if (sortBy == 'high_to_low') {
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score DESC LIMIT ${startRow}, ${endRow};`);
@@ -129,7 +130,7 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
         sort_by: "High to low",
         page_number: pageNumber
       });
-    
+
     } else if (sortBy == 'low_to_high') {
       const [userReviews] = await connection.query(
         `SELECT * FROM user_reviews WHERE phone_id=${phoneId} ORDER BY score ASC LIMIT ${startRow}, ${endRow};`);
@@ -301,7 +302,7 @@ app.post("/master_acc", authenticate, (req, res) => {
 });
 
 app.get("/profile", isAuthenticated, (req, res) => {
-  res.render("account");
+  res.render("admin/account");
 });
 
 // Set up Multer for file uploads
@@ -328,7 +329,7 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
       // console.log(pendingReviews)
 
       connection.release();
-      res.render("pending-reviews", { pending_reviews: pendingReviews });
+      res.render("admin/pending-reviews", { pending_reviews: pendingReviews });
 
     } catch (err) {
       console.log(err.message);
@@ -338,9 +339,12 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
     //published reviews can be edited here.
   } else if (reviewStatus == 'add_phone') {
     //add phone page
-    res.render("add-phone");
+    res.render("admin/add-phone");
+  } else if (reviewStatus == 'add_phone_scraping') {
+    // scraping link adding page
+    res.render("admin/add-phone-scraping-link");
   } else if (reviewStatus == 'phone_suggestions') {
-
+    // see phone suggetions by users
     try {
       const connection = await pool.getConnection();
       await connection.query('USE slmobi');
@@ -349,7 +353,7 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
       console.log(phoneSuggestions)
 
       connection.release();
-      res.render("phone-suggestions", { phone_suggestions: phoneSuggestions });
+      res.render("admin/phone-suggestions", { phone_suggestions: phoneSuggestions });
 
     } catch (err) {
       console.log(err.message);
@@ -393,7 +397,7 @@ app.post('/upload-phone-step-one', upload.single('phone_image'), async (req, res
       LIMIT 1;`);
 
       connection.release();
-      res.render("add-phone-specs", { phone_id_and_model: phoneIdModel[0] });
+      res.render("admin/add-phone-specs", { phone_id_and_model: phoneIdModel[0] });
     } catch (err) {
       console.log(err.message);
       res.render('errors');
@@ -415,7 +419,7 @@ app.post('/upload-phone-step-two/:id/:model', async (req, res) => {
     await connection.query(`
     INSERT INTO specs 
     (phone_id, model, release_date, dimensions, weight, display_size, os, chipset, internal_memory, main_cam, selfie_cam, battery)
-    VALUES('${phoneId}', 
+    VALUES(${phoneId}, 
           '${phoneModel}', 
           '${req.body.release_date}',
           '${req.body.phone_dimensions}',
@@ -432,6 +436,82 @@ app.post('/upload-phone-step-two/:id/:model', async (req, res) => {
     res.send('<div><h3>Phone added!</h3><a href="/profile">Goto Profile</a></div>');
   } catch (err) {
     console.log(err.message);
+    res.render('errors');
+  }
+
+});
+
+//upload phone with scraping get link
+app.post('/scrap-link', async (req, res) => {
+  const url = req.body.phoneLink
+
+  //getting next auto increment id
+  try {
+    const connection = await pool.getConnection();
+
+    //getting next auto increment id of the phones table
+    const [dbStatus] = await connection.query('SHOW TABLE STATUS LIKE \'phones\'');
+
+    connection.release();
+
+    //scraping data using scraper function
+    const extractedData = await scraper(url);
+    console.log(extractedData);
+    res.render("admin/add-phone-scraping-submit", { extracted_phone_data: extractedData, next_id: dbStatus[0].Auto_increment });
+  } catch (err) {
+    console.log(err.message);
+    res.render('errors');
+  }
+
+});
+
+
+//save scrapped phone data into the db
+app.post('/save-scrapped-phone',upload.single('phone_image_scrap'), async (req, res) => {
+
+  const imageName = req.file.filename;
+  if (req.file) {
+    
+    try {
+      const connection = await pool.getConnection();
+  
+      const [dbStatus] = await connection.query('SHOW TABLE STATUS LIKE \'phones\'');
+      const nextId = dbStatus[0].Auto_increment; //next available id in phones.
+  
+      await connection.query(`
+        INSERT INTO phones 
+        (phone_id, model, brand, img, release_date)
+        VALUES(${nextId},
+          '${req.body.phone_model_scrap}', 
+          '${req.body.phone_brand_scrap}', 
+          '${imageName}', 
+          '${req.body.release_date_scrap}');`);
+  
+  
+      await connection.query(`
+      INSERT INTO specs 
+      (phone_id, model, release_date, dimensions, weight, display_size, os, chipset, internal_memory, main_cam, selfie_cam, battery)
+      VALUES(${nextId}, 
+            '${req.body.phone_model_scrap}', 
+            '${req.body.release_date_scrap_input}',
+            '${req.body.phone_dimensions_scrap}',
+            '${req.body.phone_weight_scrap}',
+            '${req.body.phone_display_size_scrap}',
+            '${req.body.phone_os_scrap}',
+            '${req.body.phone_chipset_scrap}',
+            '${req.body.phone_internal_memory_scrap}',
+            '${req.body.phone_maincam_scrap}',
+            '${req.body.phone_selfiecam_scrap}',
+            '${req.body.phone_battery_scrap}');`);
+  
+      connection.release();
+      res.send('<div><h3>Phone added!</h3><a href="/profile">Goto Profile</a></div>');
+    } catch (err) {
+      console.log(err.message);
+      res.render('errors');
+    }
+  }else {
+    console.log('No file selected')
     res.render('errors');
   }
 

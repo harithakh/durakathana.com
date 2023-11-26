@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SLmobiles</title>
+        <!-- Bootstrap CSS -->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous"
+        />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/styles.css" />
+    
+        <script src="/js/scripts.js"></script>
+        
+        
+      </head>
+<body>
+    <!-- Header -->
+    <%- include('../partials/header') %>
+
+    <hr>
+    <section>
+      <div class="container">
+        <form action="/save-scrapped-phone" method="post" name="phone_scrap_info_form" enctype="multipart/form-data">
+            
+          <h5>Phone id: <%= next_id %></h5>
+
+          <label for="phone_model_scrap" class="form-label">Phone Model</label>
+          <input type="text" class="form-control" name="phone_model_scrap" id="phone_model_scrap" value="<%= extracted_phone_data.model %>" required>
+
+          <label for="phone_brand_scrap">Select brand</label>
+          <div class="form-floating">
+            <select class="form-select" id="phone_brand_scrap" name="phone_brand_scrap">
+              <option selected>Select brand</option>
+              <!-- if a brand changes here, change it in header too -->
+              <option value="Apple">Apple</option>
+              <option value="Samsung">Samsung</option>
+              <option value="Xiaomi">Xiaomi</option>
+              <option value="Sony">Sony</option>
+              <option value="Google">Google</option>
+              <option value="Huawei">Huawei</option>
+              <option value="Oppo">Oppo</option>
+              <option value="Vivo">Vivo</option>
+              <option value="Nokia">Nokia</option>
+              <option value="OnePlus">OnePlus</option>
+              <option value="Realme">Realme</option>
+              <option value="Tecno">Tecno</option>
+              <option value="LG">LG</option>
+              <option value="Honor">Honor</option>
+              <option value="ZTE">ZTE</option>
+              <option value="Sharp">Sharp</option>
+              <option value="Infinix">Infinix</option>
+              <option value="UMIDIGI">UMIDIGI</option>
+              <option value="Moto">Moto</option>
+              <option value="Digno">Digno</option>
+              <option value="TLC">TLC</option>
+              <option value="Itel">Itel</option>
+              <option value="Greentel">Greentel</option>
+              <option value="Nothing Phone">Nothing Phone</option>
+              <option value="E-tel">E-tel</option>
+              <option value="CAT">CAT</option>
+              <option value="Micromax">Micromax</option>
+              <option value="Asus">Asus</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="Fujitsu">Fujitsu</option>
+            </select>
+            <!-- <label for="floatingSelect">Works with selects</label> -->
+          </div>
+
+          <label for="release_date_scrap" class="form-label">Date Released</label>
+          <input type="date" class="form-control" name="release_date_scrap" id="release_date_scrap">
+          
+          <label for="phone_image_scrap" class="form-label">Select an Image</label>
+          <input type="file" accept="image/*" class="form-control" name="phone_image_scrap" id="phone_image_scrap" required>
+
+          <hr>
+
+          <label for="release_date_scrap_input" class="form-label">Release Date</label>
+          <input type="text" class="form-control" name="release_date_scrap_input" id="release_date_scrap_input" value="<%= extracted_phone_data.releaseDate %>" required>
+        
+          <label for="phone_dimensions_scrap" class="form-label">Dimentions</label>
+          <input type="text" class="form-control" name="phone_dimensions_scrap" id="phone_dimensions_scrap" value="<%= extracted_phone_data.dimensions %>" required>
+
+          <label for="phone_weight_scrap" class="form-label">Weight</label>
+          <input type="text" class="form-control" name="phone_weight_scrap" id="phone_weight_scrap" value="<%= extracted_phone_data.weight %>" required>
+
+          <label for="phone_display_size_scrap" class="form-label">Display size</label>
+          <input type="text" class="form-control" name="phone_display_size_scrap" id="phone_display_size_scrap" value="<%= extracted_phone_data.screenSize %>" required>
+
+          <label for="phone_os_scrap" class="form-label">OS</label>
+          <input type="text" class="form-control" name="phone_os_scrap" id="phone_os_scrap" value="<%= extracted_phone_data.os %>" required>
+
+          <label for="phone_chipset_scrap" class="form-label">Chipset</label>
+          <input type="text" class="form-control" name="phone_chipset_scrap" id="phone_chipset_scrap" value="<%= extracted_phone_data.chipset %>" required>
+
+          <label for="phone_internal_memory_scrap" class="form-label">Internal Memory</label>
+          <input type="text" class="form-control" name="phone_internal_memory_scrap" id="phone_internal_memory_scrap" value="<%= extracted_phone_data.internalMemory %>" required>
+
+          <label for="phone_maincam_scrap" class="form-label">Main Cam</label>
+          <textarea 
+          type="text" 
+          class="form-control" 
+          name="phone_maincam_scrap" 
+          id="phone_maincam_scrap" required><%= extracted_phone_data.mainCamera %></textarea>
+        
+          <label for="phone_selfiecam_scrap" class="form-label">Selfie cam</label>
+          <input type="text" class="form-control" name="phone_selfiecam_scrap" id="phone_selfiecam_scrap" value="<%= extracted_phone_data.selfieCamera %>" required>
+  
+          <label for="phone_battery_scrap" class="form-label">Battery</label>
+          <input type="text" class="form-control" name="phone_battery_scrap" id="phone_battery_scrap" value="<%= extracted_phone_data.battery %>" required>
+  
+          <button type="submit" class="btn btn-primary mt-2">Save</button>
+ 
+        </form>
+      </div>
+    </section>
+
+    <div style="height: 100px;"></div>
+    <!-- Footer -->
+    <%-include('../partials/footer') %>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>
