@@ -105,11 +105,13 @@
 
             <% // js default date format change to 'YYYY_MM_DD' format %>
             <% const formattedDate = new Date(locals.date).toISOString().split('T')[0]; %>
-            <p class="col-sm-3 text-sm-end text-xs"><%=formattedDate%></p>
+            <p class="col-sm-3 text-sm-end text-xs" style="color: grey;"><%=formattedDate%></p>
         </div>
-        <p >
+        <p style="font-size: 18px;">
             <%= locals.uReview %>
         </p>
-        <p class="text-xs">by <%= locals.postBy  %></p>
+        <p class="text-xs">
+          <b>by <%= locals.postBy  %></b>
+        </p>
     </div>
 </div>

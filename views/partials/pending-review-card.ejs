@@ -1,0 +1,23 @@
+<div class="card mt-2">
+    <div class="card-body pb-0">
+        <p>review id : <%=locals.reviewId%>
+        </p>
+        <p>post by : <%=locals.postBy%>
+        </p>
+        <p>date : <%=locals.postDate%>
+        </p>
+        <p>score : <%=locals.score%>
+        </p>
+        <p>review : <%=locals.userReview%>
+        </p>
+        <p>phone : <%=locals.phoneModel%>
+        </p>
+
+        <a href="/action/publish/<%=locals.reviewId%>" class="btn btn-primary mx-2" role="button">Publish</a>
+        <a href="/action/reject/<%=locals.reviewId%>" class="btn btn-primary mx-2" role="button">Reject</a>
+        <a href="#" class="btn btn-primary mx-2" role="button">Edit</a>
+        <a href="/action/delete/<%=locals.reviewId%>" class="btn btn-primary mx-2" role="button">Delete</a>
+
+    </div>
+
+</div>

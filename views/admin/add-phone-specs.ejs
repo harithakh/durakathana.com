@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SLmobiles</title>
+        <!-- Bootstrap CSS -->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+          crossorigin="anonymous"
+        />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/styles.css" />
+    
+        <script src="/js/scripts.js"></script>
+        
+      </head>
+<body>
+    <!-- Header -->
+    <%- include('../partials/header') %>
+    <hr>
+
+    <div class="container">
+      <h4><%=phone_id_and_model.model %></h4>
+      <p>Phone id : <%=phone_id_and_model.phone_id %></p>
+    </div>
+    <section>
+      <div class="container" >
+        <form action="/upload-phone-step-two/<%=phone_id_and_model.phone_id %>/<%=phone_id_and_model.model %>" 
+          method="POST" name="addPhoneForm">
+
+          <label for="releaseDateInput" class="form-label">Release Date</label>
+          <input type="text" class="form-control" name="release_date" id="releaseDateInput" placeholder="(30) ex: 2022, July 21" required>
+        
+          <label for="phoneDimensions" class="form-label">Dimentions</label>
+          <input type="text" class="form-control" name="phone_dimensions" id="phoneDimensions" placeholder="(30) ex: 152.2 x 71.8 x 8.9 mm" required>
+
+          <label for="phoneWeight" class="form-label">Weight</label>
+          <input type="text" class="form-control" name="phone_weight" id="phoneWeight" placeholder="(10) ex: 178 g" required>
+
+          <label for="phoneDisplaySize" class="form-label">Display size</label>
+          <input type="text" class="form-control" name="phone_display_size" id="phoneDisplaySize" placeholder="(15) ex: 6.1 inches" required>
+
+          <label for="phoneOs" class="form-label">OS</label>
+          <input type="text" class="form-control" name="phone_os" id="phoneOs" placeholder="(50) ex: Android 12" required>
+
+          <label for="phoneChipset" class="form-label">Chipset</label>
+          <input type="text" class="form-control" name="phone_chipset" id="phoneChipset" placeholder="(50) ex: Google Tensor (5 nm)" required>
+
+          <label for="phoneInternalMemory" class="form-label">Internal Memory</label>
+          <input type="text" class="form-control" name="phone_internal_memory" id="phoneInternalMemory" placeholder="(100) ex: 64GB 3GB RAM, 64GB 4GB RAM" required>
+
+          <label for="phoneMainCam" class="form-label">Main Cam</label>
+          <input type="text" class="form-control" name="phone_main_cam" id="phoneMainCam" placeholder="(100) ex: Triple : 13 MP(wide), 5 MP(ultrawide), 2 MP(depth)" required>
+
+          <label for="phoneSelfieCam" class="form-label">Selfie cam</label>
+          <input type="text" class="form-control" name="phone_selfie_cam" id="phoneSelfieCam" placeholder="(60) ex: 13 MP, (ultrawide)" required>
+
+          <label for="phoneBattery" class="form-label">Battery</label>
+          <input type="text" class="form-control" name="phone_battery" id="phoneBattery" placeholder="(30) ex: Li-Po 4385 mAh" required>
+
+          <button type="submit" class="btn btn-primary mt-2">Save</button>
+        </form>
+      </div>
+    </section>
+ 
+    <!-- Footer -->
+    <%-include('../partials/footer') %>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script> 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>

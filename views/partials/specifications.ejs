@@ -85,7 +85,8 @@
                 <tr>
                     <td class="td-width">Main Camera</td>
                     <td>
-                        <%=locals.mainCam %>
+                        <!-- using - will not escape html content in mainCam string -->
+                        <%-locals.mainCam %>
                     </td>
                 </tr>
             </tbody>

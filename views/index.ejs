@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SLmobiles</title>
+    <meta name="description"
+     content="SLMobiles.com - Explore the latest mobile phone user reviews in sri lanka.
+     Compare rankings based on user reviews and find the best phones in Sri Lanka.
+     සිංහල භාෂාවෙන් ජංගම දුරකථන Reviews!">
+     
+    <title>SLmobiles - Mobile Phone Reviews Sri Lanka!</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -31,15 +36,16 @@
       <!-- top title, search bar section -->
       <section>
         <!-- blue line -->
-        <div
-          class="spacer"
-          style="height: 3px; background-color: rgb(27, 41, 173)"
-        ></div>
+        
 
-        <div style="background-color: rgb(187, 193, 245)">
-          <h2 class="text-center text-light py-2 text-xs">
+        <div style="background-color: #0C356A">
+          <!-- text-shadow: Horizontal offset, vertical offset, blur radius, color  -->
+          <h2 class="text-center text-light py-2" style="text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);">
             Mobile phone user reviews - සිංහල
           </h2>
+          <div class="text-center"> 
+            <img src="img/svg/review_text_slm.svg" alt="" style="width: 300px;">
+          </div>
           <div class="container d-flex justify-content-center pb-1" >
             <div class="row my-2 gx-0">
               <%- include('partials/search-bar') %>               
@@ -50,7 +56,7 @@
 
       <!-- top rankings section-->
       <section>
-        <h2 class="text text-dark bg-primary-subtle px-4 py-2 fs-5">
+        <h2 class="text text-light px-4 py-2 fs-5" style="background-color: #0174BE;">
           Top rankings
         </h2>
 
@@ -72,7 +78,7 @@
 
       <!-- most reviewed section -->
       <section>
-        <h2 class="text text-dark bg-primary-subtle px-4 py-2 mt-2 fs-5">
+        <h2 class="text text-light px-4 py-2 mt-2 fs-5" style="background-color: #0174BE;">
           Most Reviewed
         </h2>
         <div class="container-md">
@@ -85,7 +91,7 @@
                img: 'img/'+phone.img, 
                score: phone.score,
                no_of_reviews: phone.number_of_reviews,
-                sort_reviews: 'latest'}) %> 
+               sort_reviews: 'latest'}) %> 
             <% }); %>
           </div>
         </div>
@@ -93,7 +99,7 @@
 
       <!-- latest user reviews section -->
       <section>
-        <h2 class="text text-dark bg-primary-subtle px-4 py-2 mt-2 fs-5">
+        <h2 class="text text-light px-4 py-2 mt-2 fs-5" style="background-color: #0174BE;">
           Latest Reviews
         </h2>
         <div class="container-md">
@@ -108,7 +114,7 @@
                  date: rev.post_date,
                  score: rev.score,
                  review: rev.review,
-                sort_reviews: 'latest'}) %> 
+                 sort_reviews: 'latest'}) %> 
               <% }); %>
 
           </div>
