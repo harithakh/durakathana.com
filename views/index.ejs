@@ -41,7 +41,7 @@
         <div style="background-color: #0C356A">
           <!-- text-shadow: Horizontal offset, vertical offset, blur radius, color  -->
           <h2 class="text-center text-light py-2" style="text-shadow: 5px 5px 4px rgba(0, 0, 0, 0.5);">
-            Mobile phone user reviews - සිංහල
+            Mobile Phone User Reviews - සිංහල
           </h2>
           <div class="text-center"> 
             <img src="img/svg/review_text_slm.svg" alt="" style="width: 300px;">
@@ -67,7 +67,7 @@
               <%-include('partials/phone-info-card', 
               { id: phone.phone_id,
                 model : phone.model,
-                img : 'img/'+phone.img,
+                img : 'img/phones/'+phone.img,
                 score: phone.score, 
                 no_of_reviews: phone.number_of_reviews,
                 sort_reviews: 'latest'}) %> 
@@ -88,7 +88,7 @@
             <%-include('partials/phone-info-card', 
               {id: phone.phone_id,
                model : phone.model,
-               img: 'img/'+phone.img, 
+               img: 'img/phones/'+phone.img, 
                score: phone.score,
                no_of_reviews: phone.number_of_reviews,
                sort_reviews: 'latest'}) %> 

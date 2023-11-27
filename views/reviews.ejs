@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SLmobiles</title>
+    <title><%= phone_info.model %> User Reviews - Sri Lanka</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -40,13 +40,13 @@
         <div class="container-sm border rounded border-4 px-0"> 
 
           <h1 class="text-light rounded py-2 ps-3" style="font-size: 18px; background-color: #0174BE;">
-            <%= phone_info.model %> 
+            <%= phone_info.model %> - User Reviews
           </h1>
           
-          <div class="row text-center" style="height: 200px">
+          <div class="row text-center">
             <!-- phone image -->
             <div class="col d-flex justify-content-center align-items-center"  >
-              <img src="/img/<%= phone_info.img %>" class="img-fluid" alt="A picture of <%= phone_info.model %>" />
+              <img src="/img/phones/<%= phone_info.img %>" class="img-fluid mb-1" alt="A picture of <%= phone_info.model %>" />
             </div>
 
             <div class="col  me-2">

@@ -366,7 +366,7 @@ app.get("/edit/:status", isAuthenticated, async (req, res) => {
 // Set up Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __dirname + '/public/img');
+    cb(null, __dirname + '/public/img/phones');
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
