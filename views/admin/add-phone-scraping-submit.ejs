@@ -25,9 +25,12 @@
     <hr>
     <section>
       <div class="container">
+        <% if(phone_available!=0) {%>
+          <h5 class="text-danger">Similar model available! Phone id: <%= phone_available %></h5>
+        <% } %>  
         <form action="/save-scrapped-phone" method="post" name="phone_scrap_info_form" enctype="multipart/form-data">
             
-          <h5>Phone id: <%= next_id %></h5>
+          <h5>Phone id to assign: <%= next_id %></h5>
 
           <label for="phone_model_scrap" class="form-label">Phone Model</label>
           <input type="text" class="form-control" name="phone_model_scrap" id="phone_model_scrap" value="<%= extracted_phone_data.model %>" required>

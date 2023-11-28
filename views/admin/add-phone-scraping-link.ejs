@@ -18,23 +18,25 @@
         
         
       </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Header -->
     <%- include('../partials/header') %>
 
     <hr>
-    <section>
-      <div class="container">
-        <form action="/scrap-link" method="post" name="phoneLinkForm">
-            <label for="phoneLink" class="form-label">Enter link</label>
-            <input type="text" class="form-control" id="phoneLink" name="phoneLink" required>
-        
-            <button type="submit" class="btn btn-primary mt-2">Scrape</button>
-        </form>
-      </div>
-    </section>
+    <main class="flex-grow-1">
+      <section>
+        <div class="container">
+          <form action="/scrap-link" method="post" name="phoneLinkForm">
+              <label for="phoneLink" class="form-label">Enter link</label>
+              <input type="text" class="form-control" id="phoneLink" name="phoneLink" required>
+          
+              <button type="submit" class="btn btn-primary mt-2">Scrape</button>
+          </form>
+        </div>
+      </section>
 
-    <div style="height: 400px;"></div>
+    </main>
+    
     <!-- Footer -->
     <%-include('../partials/footer') %>
 

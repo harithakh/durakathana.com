@@ -17,10 +17,13 @@
         <script src="/js/scripts.js"></script>
         
       </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Header -->
     <%- include('../partials/header') %>
     <hr>
+
+    <main class="flex-grow-1">
+     
     <section>
         <div class="container" style="height: 400px;">
           <div class="container border" style="height: 100px;">
@@ -39,6 +42,9 @@
           </div>
         </div>
     </section>
+
+     
+  </main>
 
     <!-- Footer -->
     <%-include('../partials/footer') %>

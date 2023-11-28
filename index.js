@@ -452,12 +452,23 @@ app.post('/scrap-link', async (req, res) => {
     //getting next auto increment id of the phones table
     const [dbStatus] = await connection.query('SHOW TABLE STATUS LIKE \'phones\'');
 
-    connection.release();
-
     //scraping data using scraper function
     const extractedData = await scraper(url);
-    console.log(extractedData);
-    res.render("admin/add-phone-scraping-submit", { extracted_phone_data: extractedData, next_id: dbStatus[0].Auto_increment });
+
+    //check for duplicates
+    const [checkAvailable] = await connection
+      .query(`SELECT phone_id FROM phones WHERE model='${extractedData.model}'`); 
+
+    let similarModel = 0;
+    if (checkAvailable.length>0){
+      similarModel = checkAvailable[0].phone_id
+    }
+    connection.release();
+
+    // console.log(checkAvailable);
+    res.render("admin/add-phone-scraping-submit", { extracted_phone_data: extractedData, 
+      next_id: dbStatus[0].Auto_increment, phone_available: similarModel});
+  
   } catch (err) {
     console.log(err.message);
     res.render('errors');

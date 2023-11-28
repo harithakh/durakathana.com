@@ -18,12 +18,19 @@
         
         
       </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Header -->
     <%- include('../partials/header') %>
 
     <hr>
+    <main class="flex-grow-1">
+     
     <section>
+      <p class="ms-3">Publish : Publish the review on the site. <br>
+         Reject : Not published but not deleted from the database. <br>
+         Delete : Delete from the database
+        </p>
+      
       <div class="container">
 
         <% pending_reviews.forEach((review) => { %>
@@ -39,9 +46,9 @@
         <% }); %>
 
       </div>
-    </section>
-
-    <div style="height: 400px;"></div>
+    </section> 
+  </main>
+  
     <!-- Footer -->
     <%-include('../partials/footer') %>
 
