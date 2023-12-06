@@ -14,11 +14,11 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
   <!-- Header -->
   <%- include('partials/header') %>
     
-  <main>
+  <main class="flex-grow-1">
 
     <!-- search section -->
     <section>
@@ -134,7 +134,7 @@
                   </ul>
                 </div>
             <% } else if (content == 'contact_us'){ %> 
-              <div class="container" style="height: 400px; padding-top: 20px;">
+              <div class="container" style="padding-top: 20px;">
                 <h4>
                   Our email : <a href="mailto:slmobiles@proton.me">slmobiles@proton.me</a> 
 
@@ -144,10 +144,10 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <%-include('partials/footer') %>
-
+    
   </main>
+  <!-- Footer -->
+  <%-include('partials/footer') %>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

@@ -9,38 +9,41 @@ async function scrapeData(url) {
         // Load HTML content into Cheerio
         const $ = cheerio.load(htmlContent);
 
-        // Example: Extract text from an element with CSS Selector
+        // Extract text from an element with CSS Selector
         const modelName = $('.specs-phone-name-title').text();
 
-        const releaseDate = $('#specs-list > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)')
-            .text().slice(20);
+        // Extract element: first find <tr> elements that contains <a> elements that includes the word 'Status'.
+        // Then finds <td> elements inside previous <tr> element.
+        const releaseDate = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Status')})
+            .find('td:nth-child(2)').text().slice(20);
 
-        const phoneDimensions = $('#specs-list > table:nth-child(4) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3)')
-            .text().replace(/mm.*/, 'mm');
+        const phoneDimensions = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Dimensions')})
+            .find('td:last').text().replace(/mm.*/, 'mm');
 
-        const phoneWeight = $('#specs-list > table:nth-child(4) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)')
-            .text().replace(/g.*/, 'g');
+        const phoneWeight = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Weight')})
+            .find('td:last').text().replace(/g.*/, 'g');
 
-        const screenSize = $('#specs-list > table:nth-child(5) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)')
-            .text().replace(/,.*/, '');
+        const screenSize = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Size')})
+            .find('td:last').text().replace(/,.*/, '');
 
-        const phoneOs = $('#specs-list > table:nth-child(6) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3)')
-            .text();
+        //Here we filter <th> elements that contain word 'Platform'
+        const phoneOs = $('tr').filter(function(i, el){return $(el).find('th').text().includes('Platform')})
+            .find('td:last').text();
 
-        const chipset = $('#specs-list > table:nth-child(6) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)')
-            .text();
+        const chipset = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Chipset')})
+            .find('td:last').text();
 
-        const internalMemory = $('#specs-list > table:nth-child(7) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)')
-            .text();
+        const internalMemory = $('tr').filter(function(i, el){return $(el).find('a').text().includes('Internal')})
+            .find('td:last').text();
 
-        const mainCamera = $('#specs-list > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3)')
-            .text().replace(/\n/g, '<br>');
+        const mainCamera = $('tr').filter(function(i, el){return $(el).find('th').text().includes('Main Camera')})
+            .find('td:last').text().replace(/\n/g, '<br>');
 
-        const selfieCamera = $('#specs-list > table:nth-child(9) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3)')
-            .text().replace(/,.*/, '');
+        const selfieCamera = $('tr').filter(function(i, el){return $(el).find('th').text().includes('Selfie camera')})
+            .find('td:last').text().replace(/,.*/, '');
 
-        const battery = $('#specs-list > table:nth-child(13) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3)')
-        .text().replace(/mAh.*/, 'mAh');
+        const battery = $('tr').filter(function(i, el){return $(el).find('th').text().includes('Battery')})
+            .find('td:last').text().replace(/mAh.*/, 'mAh');
 
         const phoneInfo = {
             model: modelName,
