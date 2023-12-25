@@ -369,7 +369,10 @@ const storage = multer.diskStorage({
     cb(null, __dirname + '/public/img/phones');
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    const originalname = path.parse(file.originalname).name; // Extract the original filename without extension
+    const extension = path.extname(file.originalname); // Extract the file extension
+    const newFilename = originalname + '-slm' + extension;
+    cb(null, newFilename);
   },
 });
 
