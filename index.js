@@ -48,6 +48,7 @@ app.set("views", path.join(__dirname, "views"));
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
+// home page
 app.get("/", async (req, res) => {
   //getting data from db
   try {
@@ -60,8 +61,7 @@ app.get("/", async (req, res) => {
     //get data from user_reviews inner join with phones table
     const [rowsReviews] = await pool.query('SELECT user_reviews.*, phones.model FROM user_reviews LEFT JOIN phones ON user_reviews.phone_id = phones.phone_id ORDER BY post_date DESC LIMIT 4;')
 
-    /* dummy data are added to score and number of reviews for testing.
-      passing data to home page.*/
+    /* passing data to the home page.*/
     res.render("index", {
       phonesTopRanks: rowsTopRanks,
       phonesMostReviewed: rowsMostReviewed,
@@ -75,6 +75,7 @@ app.get("/", async (req, res) => {
 
 });
 
+// phone reviews
 app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
   const phoneId = parseInt(req.params.id);
   const sortBy = req.params.sort;
@@ -154,7 +155,7 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
 
 //review submit
 app.post('/submit/:id', async (req, res) => {
-  const uName = req.body.userName;
+  const uName = req.body.userName.replace(/ AND /g, ' ');
   const phoneId = parseInt(req.params.id);
   const postDate = new Date().toISOString().split('T')[0];
   const starScore = parseInt(req.body.starScore);
