@@ -155,7 +155,9 @@ app.get("/reviews/:id/:model/:sort/page/:pNumber", async (req, res) => {
 
 //review submit
 app.post('/submit/:id', async (req, res) => {
-  const uName = req.body.userName.replace(/ AND /g, ' ');
+  const uName = req.body.userName.replace(/ AND /gi, '')
+                                .replace(/[0-9=+-\/\\]/g, ' ')
+                                .trim();
   const phoneId = parseInt(req.params.id);
   const postDate = new Date().toISOString().split('T')[0];
   const starScore = parseInt(req.body.starScore);
